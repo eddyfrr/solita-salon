@@ -10,6 +10,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
+import os
+import dj_database_url
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -77,15 +79,13 @@ WSGI_APPLICATION = 'solita_salon.wsgi.application'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'solita_db',
-        'USER':'solita_admin',
-        'PASSWORD': 'solita123',
-        'HOST' : 'localhost',
-        'PORT': '5432',
+    'default': dj_database_url.config(
+        default='postgres://localhost:5432/your_local_db',  # fallback for local
+        conn_max_age=600,  # persistent connections
+        ssl_require=True   # required by Render
+    )
     }
-}
+
 
 
 # Password validation
