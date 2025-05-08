@@ -1,0 +1,33 @@
+{% load static %}
+
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Success - Solita Salon</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-purple-50 text-gray-800 font-[Inter]">
+    <!-- Header -->
+    <header class="flex items-center justify-between px-8 py-5 shadow-md bg-white">
+      <h1 class="text-2xl font-bold text-purple-700">Solita Beauty Salon</h1>
+      <nav class="space-x-8 flex text-sm font-medium">
+        <a href="{% url 'service_list' %}" class="text-gray-700 hover:text-purple-600 transition">Services</a>
+        <a href="{% url 'my_bookings' %}" class="text-gray-700 hover:text-purple-600 transition">My Bookings</a>
+        <a href="{% url 'user_logout' %}" class="text-gray-700 hover:text-purple-600 transition">Logout ({{ user.username }})</a>
+      </nav>
+    </header>
+
+    <!-- Success Section -->
+    <section class="max-w-7xl mx-auto py-16 px-8 text-center">
+      <h2 class="text-3xl font-bold text-purple-800 mb-4">Success!</h2>
+      <p class="text-lg text-gray-600">{{ message }}</p>
+      <div class="mt-4 space-x-4">
+        <a href="{% url 'service_list' %}" class="inline-block bg-purple-600 text-white px-6 py-3 rounded-lg hover:bg-purple-700">Back to Services</a>
+        <a href="{% url 'my_bookings' %}" class="inline-block bg-gray-600 text-white px-6 py-3 rounded-lg hover:bg-gray-700">View My Bookings</a>
+      </div>
+    </section>
+  </body>
+  </html>

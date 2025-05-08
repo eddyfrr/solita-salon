@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redirecting...</title>
+</head>
+<body onload="document.forms['redirectForm'].submit()">
+    <form id="redirectForm" method="post" action="{% url 'review_booking' %}">
+        {% csrf_token %}
+        <input type="hidden" name="service_id" value="{{ service_id }}">
+        <input type="hidden" name="date" value="{{ date }}">
+        <input type="hidden" name="time" value="{{ time }}">
+    </form>
+</body>
+</html>

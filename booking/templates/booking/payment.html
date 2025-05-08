@@ -1,0 +1,52 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Payment - Solita Salon</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-purple-50 text-gray-800 font-[Inter]">
+    <!-- Header -->
+    <header class="flex items-center justify-between px-8 py-5 shadow-md bg-white">
+        <h1 class="text-2xl font-bold text-purple-700">Solita Beauty Salon</h1>
+        <nav class="space-x-8 flex text-sm font-medium">
+            <a href="{% url 'service_list' %}" class="text-gray-700 hover:text-purple-600 transition">Services</a>
+            <a href="{% url 'my_bookings' %}" class="text-gray-700 hover:text-purple-600 transition">My Bookings</a>
+            <a href="{% url 'user_logout' %}" class="text-gray-700 hover:text-purple-600 transition">Logout ({{ user.username }})</a>
+        </nav>
+    </header>
+
+    <!-- Payment Section -->
+    <section class="max-w-7xl mx-auto py-16 px-8">
+        <h2 class="text-3xl font-bold text-purple-800 mb-8 text-center">Payment Details</h2>
+        <div class="bg-white rounded-xl p-6 shadow-lg max-w-md mx-auto">
+            <h3 class="text-xl font-bold text-purple-800 mb-4">Booking Summary</h3>
+            {% if error %}
+                <p class="text-red-600 text-sm mb-4">{{ error }}</p>
+            {% endif %}
+            <ul class="text-sm text-gray-600 space-y-2 mb-6">
+                <li>Service: <span class="italic text-gray-500">{{ service.name }}</span></li>
+                <li>Price: <span class="italic text-gray-500">TSH {{ service.price }}</span></li>
+                <li>Date: <span class="italic text-gray-500">{{ date|date:"F d, Y" }}</span></li>
+                <li>Time: <span class="italic text-gray-500">{{ time_display }}</span></li>
+            </ul>
+            <form method="post" action="{% url 'process_payment' %}">
+                {% csrf_token %}
+                <input type="hidden" name="service_id" value="{{ service.id }}">
+                <input type="hidden" name="date" value="{{ date|date:'Y-m-d' }}">
+                <input type="hidden" name="time" value="{{ time|time:'H:i:s' }}">
+                <input type="hidden" name="appointment_id" value="{{ appointment_id }}">
+                <input type="hidden" name="confirm_payment" value="true">
+                <button type="submit" class="w-full bg-purple-600 text-white py-3 rounded-lg font-semibold hover:bg-purple-700 transition">Confirm Payment</button>
+            </form>
+            <div class="mt-4 text-center">
+                <a href="{% url 'service_list' %}" class="text-gray-600 hover:underline">Cancel</a>
+            </div>
+        </div>
+    </section>
+</body>
+</html>
