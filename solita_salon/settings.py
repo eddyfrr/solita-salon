@@ -27,9 +27,19 @@ SECRET_KEY = 'django-insecure-vf+k1gy7=%$t#ve2sik#k_96596-l5&*vhzi@u_1-3ahy9%j(w
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['Solita Beauty Bar.onrender.com']
+ALLOWED_HOSTS = [
+    'solita-beauty-bar.onrender.com',
+    'localhost',
+    '127.0.0.1'
+    ]
 
-
+# Or better (for dynamic deployment):
+RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
+if RENDER_EXTERNAL_HOSTNAME:
+    ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
+    
+    
+    
 CSRF_TRUSTED_ORIGINS = []
 
 # Application definition
