@@ -23,17 +23,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-vf+k1gy7=%$t#ve2sik#k_96596-l5&*vhzi@u_1-3ahy9%j(w'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = [
-    '3fb0-197-186-8-24.ngrok-free.app',
-    '127.0.0.1'
-]
+ALLOWED_HOSTS = ['Solita Beauty Bar.onrender.com']
 
-CSRF_TRUSTED_ORIGINS = [
-    'http://localhost:8000',
-    'https://3fb0-197-186-8-24.ngrok-free.app',  # Add your ngrok URL
-]
+
+CSRF_TRUSTED_ORIGINS = []
 
 # Application definition
 
