@@ -135,6 +135,15 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # collectstatic will put files here
 
+# Render-specific settings
+if os.environ.get('RENDER'):
+    DEBUG = False
+    ALLOWED_HOSTS = ['solita-beauty-bar.onrender.com']
+    DATABASES = {
+        'default': dj_database_url.config(conn_max_age=600)
+    }
+    
+    
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
