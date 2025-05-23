@@ -91,12 +91,11 @@ WSGI_APPLICATION = 'solita_salon.wsgi.application'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {
-    'default': dj_database_url.config(
-        default=config('DATABASE_URL', default='postgresql://solita_admin:password@localhost:5432/solita_db'),
-        conn_max_age=600
-    )
-}
-    
+      'default': dj_database_url.config(
+          default=config('DATABASE_URL', default='postgresql://solita_admin:password@localhost:5432/solita_db'),
+          conn_max_age=600
+      )
+  }
 
 
 
