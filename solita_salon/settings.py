@@ -29,7 +29,7 @@ SECRET_KEY = 'django-insecure-vf+k1gy7=%$t#ve2sik#k_96596-l5&*vhzi@u_1-3ahy9%j(w
 DEBUG = False
 
 ALLOWED_HOSTS = [
-    'solita-beauty-bar.onrender.com',
+    'solitabeautybar.up.railway.app',
     'localhost',
     '127.0.0.1'
     ]
@@ -41,7 +41,7 @@ if RENDER_EXTERNAL_HOSTNAME:
     
     
     
-CSRF_TRUSTED_ORIGINS = config('SCRF_TRUSTED_ORIGINS', default=('https://*.railway.app').split(','))
+CSRF_TRUSTED_ORIGINS = ['https://solitabeautybar.up.railway.app']
 # Application definition
 
 INSTALLED_APPS = [
