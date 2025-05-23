@@ -92,11 +92,10 @@ WSGI_APPLICATION = 'solita_salon.wsgi.application'
 
 DATABASES = {
       'default': dj_database_url.config(
-          default=config('DATABASE_URL', default='postgresql://solita_admin:password@localhost:5432/solita_db'),
+          default=config('DATABASE_URL'),  # Rely on the env variable, no fallback
           conn_max_age=600
       )
   }
-
 
 
 # Password validation
