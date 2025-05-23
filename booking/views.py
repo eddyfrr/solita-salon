@@ -7,6 +7,17 @@ from datetime import datetime
 import requests
 from django.conf import settings
 import uuid
+from django.contrib.auth.models import User
+from django.contrib.auth.tokens import default_token_generator
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.utils.encoding import force_bytes, force_str
+from django.core.mail import send_mail
+from django.contrib import messages
+import certifi
+import ssl
+from django.core.mail.backends.smtp import EmailBackend
+
+
 
 def service_list(request):
     services = Service.objects.all()
@@ -60,12 +71,8 @@ def review_booking(request):
 
         try:
             service = get_object_or_404(Service, id=service_id)
-
-            # Parse the date and time
             date_obj = datetime.strptime(date_str, '%Y-%m-%d').date()
             time_obj = datetime.strptime(time_str, '%H:%M:%S').time()
-
-            # Create the Appointment
             appointment = Appointment.objects.create(
                 user=request.user,
                 service=service,
@@ -73,8 +80,6 @@ def review_booking(request):
                 time=time_obj
             )
             print(f"[review_booking] Appointment Created - ID: {appointment.id}, User: {appointment.user.username}, Service: {appointment.service.name}")
-
-            # Proceed to payment
             time_display = time_obj.strftime('%I:%M %p')
             print(f"[review_booking] Rendering review_booking.html with appointment_id={appointment.id}")
             return render(request, 'booking/review_booking.html', {
@@ -84,14 +89,12 @@ def review_booking(request):
                 'time_display': time_display,
                 'appointment_id': appointment.id
             })
-
         except Exception as e:
             print(f"[review_booking] Error: {str(e)}")
             return redirect('service_list')
 
     print("[review_booking] Redirecting to service_list")
     return redirect('service_list')
-
 
 def generate_clickpesa_token():
     url = f"{settings.CLICKPESA_API_URL}/third-parties/generate-token"
@@ -103,8 +106,8 @@ def generate_clickpesa_token():
         response = requests.post(url, headers=headers)
         response.raise_for_status()
         token_data = response.json()
-        print(f"[generate_clickpesa_token] Full response: {token_data}")  # Log the full response
-        token = token_data.get("token")  # Look for "token" instead of "access_token"
+        print(f"[generate_clickpesa_token] Full response: {token_data}")
+        token = token_data.get("token")
         if not token:
             print("[generate_clickpesa_token] No token in response")
             raise ValueError("Failed to generate ClickPesa token")
@@ -128,7 +131,6 @@ def process_payment(request):
             print(f"[process_payment] Confirm Payment - service_id={service_id}, date={date_str}, time={time_str}, appointment_id={appointment_id}, User: {request.user.username}")
 
             if not appointment_id:
-                # Try to get appointment_id from session if missing
                 appointment_id = request.session.get('appointment_id')
                 if not appointment_id:
                     print("[process_payment] Missing appointment_id in confirm_payment")
@@ -143,9 +145,7 @@ def process_payment(request):
                 print("[process_payment] Missing required fields (excluding appointment_id)")
                 return redirect('service_list')
 
-            # Generate ClickPesa checkout link
             url = "https://api.clickpesa.com/third-parties/checkout-link/generate-checkout-url"
-
             payload = {
                 "totalPrice": str(service.price),
                 "orderReference": f"SOLITA{appointment.id}",
@@ -157,7 +157,6 @@ def process_payment(request):
                 "failureUrl": settings.CLICKPESA_FAILURE_URL
             }
 
-            # Generate a fresh token
             try:
                 access_token = generate_clickpesa_token()
             except Exception as e:
@@ -169,7 +168,7 @@ def process_payment(request):
                     'time': time_str,
                     'time_display': datetime.strptime(time_str, '%H:%M:%S').strftime('%I:%M %p'),
                     'appointment_id': appointment_id,
-                    'error': 'Failed to generate payment token. Please try again.'
+                    'error': 'Unable to connect to payment portal. Please try again.'
                 })
 
             headers = {
@@ -192,7 +191,14 @@ def process_payment(request):
                 else:
                     print("[Error] checkoutLink not found in response")
                     request.session['appointment_id'] = appointment.id
-                    return redirect('success_page')
+                    return render(request, 'booking/payment.html', {
+                        'service': service,
+                        'date': datetime.strptime(date_str, '%Y-%m-%d').date(),
+                        'time': time_str,
+                        'time_display': datetime.strptime(time_str, '%H:%M:%S').strftime('%I:%M %p'),
+                        'appointment_id': appointment_id,
+                        'error': 'Failed to generate payment link. Please try again.'
+                    })
             except requests.exceptions.RequestException as e:
                 print(f"[ClickPesa Error] {str(e)} - Response: {response.text if 'response' in locals() else 'No response'}")
                 request.session['appointment_id'] = appointment.id
@@ -202,12 +208,10 @@ def process_payment(request):
                     'time': time_str,
                     'time_display': datetime.strptime(time_str, '%H:%M:%S').strftime('%I:%M %p'),
                     'appointment_id': appointment_id,
-                    'error': 'Failed to generate payment link. Please try again.'
+                    'error': 'Unable to connect to payment portal. Please try again.'
                 })
 
-        # Initial submission (from review_booking or retry)
         appointment_id = request.POST.get('appointment_id')
-
         if not appointment_id:
             print("[process_payment] Missing appointment_id in initial submission")
             return redirect('service_list')
@@ -227,7 +231,6 @@ def process_payment(request):
             'appointment_id': appointment_id
         })
 
-    # Handle GET request for retries
     appointment_id = request.GET.get('appointment_id')
     if not appointment_id:
         print("[process_payment] Missing appointment_id in GET request")
@@ -254,15 +257,12 @@ def payment_callback(request):
         payment_status = data.get("status")
         transaction_id = data.get("paymentReference")
         order_reference = data.get("orderReference")
-
-        # Log the full payload for debugging
         print(f"[payment_callback] Webhook received: {data}")
 
         if not all([payment_status, transaction_id, order_reference]):
             print("[payment_callback] Missing required fields in webhook payload")
             return HttpResponse(status=400)
 
-        # Find the appointment
         appointment = Appointment.objects.filter(transaction_id=transaction_id).first()
         if not appointment:
             appointment_id = order_reference.split('-')[1] if '-' in order_reference else None
@@ -293,7 +293,6 @@ def confirm_payment(request):
         service_id = request.POST.get('service_id')
         date_str = request.POST.get('date')
         time_str = request.POST.get('time')
-
         print(f"[confirm_payment] Received POST request: service_id={service_id}, date={date_str}, time={time_str}, User: {request.user.username}")
 
         if not all([service_id, date_str, time_str]):
@@ -307,7 +306,6 @@ def confirm_payment(request):
             })
 
         service = get_object_or_404(Service, id=service_id)
-
         try:
             time_obj = datetime.strptime(time_str, '%H:%M:%S').time()
         except ValueError as e:
@@ -396,3 +394,52 @@ def user_register(request):
 def user_logout(request):
     logout(request)
     return redirect('user_login')
+
+def forgot_password(request):
+      if request.method == 'POST':
+          email = request.POST.get('email')
+          try:
+              user = User.objects.get(email=email)
+              token = default_token_generator.make_token(user)
+              uid = urlsafe_base64_encode(force_bytes(user.pk))
+              reset_link = f"{request.scheme}://{request.get_host()}/reset-password/{uid}/{token}/"
+              send_mail(
+                  subject='Password Reset Request',
+                  message=f'Click the link to reset your password: {reset_link}\nThis link will expire in 1 hour.',
+                  from_email=settings.DEFAULT_FROM_EMAIL,
+                  recipient_list=[email],
+                  html_message=f'<p>Click <a href="{reset_link}">here</a> to reset your password.</p><>This link will expire in 1 hour.</p><p><a href="{unsubscribe}">Unsubscribe</a></p>',
+                  extra_tags={'isTransactional': True}
+              )
+              messages.success(request, 'Password reset link sent to your email.')
+              return redirect('forgot_password')
+          except User.DoesNotExist:
+              messages.error(request, 'Email not found.')
+              return redirect('forgot_password')
+          except User.MultipleObjectsReturned:
+              messages.error(request, 'Multiple accounts found for this email. Please contact support.')
+              return redirect('forgot_password')
+          except Exception as e:
+              messages.error(request, f'Failed to send email: {str(e)}')
+              return redirect('forgot_password')
+      return render(request, 'booking/forgot_password.html')
+
+def reset_password(request, uidb64, token):
+      try:
+          uid = urlsafe_base64_decode(uidb64).decode()
+          user = User.objects.get(pk=uid)
+      except (TypeError, ValueError, OverflowError, User.DoesNotExist):
+          user = None
+
+      if user and default_token_generator.check_token(user, token):
+          if request.method == 'POST':
+              password = request.POST.get('new_password')
+              user.set_password(password)
+              user.save()
+              messages.success(request, 'Password reset successfully. You can now log in.')
+              return redirect('user_login')
+          return render(request, 'booking/reset_password.html', {'uidb64': uidb64, 'token': token})
+      else:
+          messages.error(request, 'Invalid or expired link.')
+          return redirect('forgot_password')
+

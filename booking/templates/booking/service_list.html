@@ -19,16 +19,32 @@
         header {
             background-color: #ffffff;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        .services-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+            padding: 2rem;
         }
         .service-card {
             background-color: #ffffff;
             border-radius: 0.75rem;
             padding: 1.5rem;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            width: 350px;
+            text-align: center;
+            transition: transform 0.2s;
+        }
+        .service-card:hover {
+            transform: translateY(-5px);
         }
         .service-card img {
             width: 100%;
-            height: 12rem;
+            height: 30rem;
             object-fit: cover;
             border-radius: 0.5rem;
             margin-bottom: 1rem;
@@ -37,11 +53,13 @@
             font-size: 1.25rem;
             font-weight: 700;
             color: #6b21a8;
+            margin-bottom: 0.5rem;
         }
         .service-card p {
             font-size: 0.875rem;
             color: #6b7280;
             margin-top: 0.5rem;
+            line-height: 1.4;
         }
         .book-now-btn {
             width: 100%;
@@ -50,22 +68,28 @@
             padding: 0.75rem;
             border-radius: 0.5rem;
             font-weight: 600;
-            transition: background-color 0.3s;
+            transition: background-color 0.3s, transform 0.2s;
         }
         .book-now-btn:hover {
             background-color: #7e22ce;
+            transform: scale(1.05);
         }
         .form-container {
             margin-top: 2rem;
             max-width: 28rem;
             margin-left: auto;
             margin-right: auto;
+            background-color: #ffffff;
+            padding: 2rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
         }
         .form-container label {
             display: block;
             font-size: 0.875rem;
             font-weight: 500;
             color: #374151;
+            margin-bottom: 0.25rem;
         }
         .form-container input {
             width: 100%;
@@ -78,6 +102,18 @@
             color: #dc2626;
             font-size: 0.875rem;
             margin-bottom: 1rem;
+        }
+        @media (max-width: 768px) {
+            .service-card {
+                width: 100%;
+                max-width: 350px;
+            }
+            .service-card img {
+                height: 14rem;
+            }
+            .services-container {
+                padding: 1rem;
+            }
         }
     </style>
 </head>
@@ -93,17 +129,18 @@
     </header>
 
     <!-- Hero Section -->
-    <section class="relative">
-        <div class="max-w-7xl mx-auto py-16 px-8 text-center">
+    <section class="relative bg-purple-50 py-16 px-8 text-center">
+        <div class="max-w-7xl mx-auto">
             <h2 class="text-4xl font-bold text-purple-800 mb-4">Welcome to Solita Beauty Salon</h2>
             <p class="text-lg text-gray-600 mb-8">Book your appointment today and let us pamper you with our premium services.</p>
+            <a href="#services" class="book-now-btn inline-block w-auto px-6">Explore Services</a>
         </div>
     </section>
 
     <!-- Services Section -->
-    <section class="max-w-7xl mx-auto py-16 px-8">
+    <section class="max-w-7xl mx-auto py-16 px-8" id="services">
         <h2 class="text-3xl font-bold text-purple-800 mb-8 text-center">Our Services</h2>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="services-container">
             {% for service in services %}
             <div class="service-card">
                 <img src="{% if service.image %}{{ service.image.url }}{% else %}{% static 'images/default-service.jpg' %}{% endif %}" alt="{{ service.name }}">
@@ -137,6 +174,11 @@
                 <p class="text-gray-500 italic text-center">We are open Tuesday to Sunday, 8 AM to 9 PM. Closed on Mondays.</p>
                 <button type="submit" class="book-now-btn" id="submit-btn" disabled>Book Appointment</button>
             </form>
+            {% if messages %}
+                {% for message in messages %}
+                    <p class="error-message">{{ message }}</p>
+                {% endfor %}
+            {% endif %}
         </div>
         {% endif %}
     </section>
@@ -192,11 +234,7 @@
             const dateInput = document.querySelector('#id_date').value;
             const timeInput = document.querySelector('#id_time').value;
             const submitBtn = document.querySelector('#submit-btn');
-            if (dateInput && timeInput) {
-                submitBtn.disabled = false;
-            } else {
-                submitBtn.disabled = true;
-            }
+            submitBtn.disabled = !(dateInput && timeInput);
         }
 
         function validateBeforeSubmit(event) {
@@ -210,6 +248,7 @@
             return true;
         }
 
+        // Initial validation call
         validateForm();
     </script>
 </body>

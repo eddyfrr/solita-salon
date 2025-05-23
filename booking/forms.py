@@ -27,6 +27,18 @@ class RegisterForm(UserCreationForm):
         model = User
         fields = ['username', 'email', 'password1', 'password2']
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['password1'].help_text = (
+            "Your password must be at least 8 characters long, "
+            "contain at least one letter and one number, "
+            "cannot be too common (e.g., 'password123'), "
+            "and should not be too similar to your username or email."
+        )
+        self.fields['password2'].help_text = (
+            "Enter the same password as above, for verification."
+        )
+
     def clean_email(self):
         email = self.cleaned_data.get('email')
         if not email.lower().endswith('@gmail.com'):

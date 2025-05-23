@@ -1,5 +1,4 @@
 {% load static %}
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -34,19 +33,37 @@
                 <li>Date: <span class="italic text-gray-500">{{ date|date:"F d, Y" }}</span></li>
                 <li>Time: <span class="italic text-gray-500">{{ time_display }}</span></li>
             </ul>
-            <form method="post" action="{% url 'process_payment' %}">
+            <form id="payment-form" method="post" action="{% url 'process_payment' %}">
                 {% csrf_token %}
                 <input type="hidden" name="service_id" value="{{ service.id }}">
                 <input type="hidden" name="date" value="{{ date|date:'Y-m-d' }}">
                 <input type="hidden" name="time" value="{{ time|time:'H:i:s' }}">
                 <input type="hidden" name="appointment_id" value="{{ appointment_id }}">
                 <input type="hidden" name="confirm_payment" value="true">
-                <button type="submit" class="w-full bg-purple-600 text-white py-3 rounded-lg font-semibold hover:bg-purple-700 transition">Confirm Payment</button>
+                <button id="payment-button" type="submit" class="w-full bg-purple-600 text-white py-3 rounded-lg font-semibold hover:bg-purple-700 transition">Confirm Payment</button>
             </form>
+            <!-- Loading Indicator (Hidden by Default) -->
+            <div id="loading-indicator" class="hidden flex items-center justify-center mt-4">
+                <svg class="animate-spin h-5 w-5 text-purple-600 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                <p class="text-gray-700 text-sm">Redirecting to payment portal...</p>
+            </div>
             <div class="mt-4 text-center">
                 <a href="{% url 'service_list' %}" class="text-gray-600 hover:underline">Cancel</a>
             </div>
         </div>
     </section>
+
+    <!-- JavaScript for Loading Indicator -->
+    <script>
+        document.getElementById('payment-form').addEventListener('submit', function() {
+            const button = document.getElementById('payment-button');
+            button.disabled = true;
+            button.classList.add('opacity-50', 'cursor-not-allowed');
+            document.getElementById('loading-indicator').classList.remove('hidden');
+        });
+    </script>
 </body>
 </html>

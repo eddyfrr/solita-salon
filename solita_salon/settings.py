@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 import os
 import dj_database_url
 from pathlib import Path
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -40,8 +41,7 @@ if RENDER_EXTERNAL_HOSTNAME:
     
     
     
-CSRF_TRUSTED_ORIGINS = []
-
+CSRF_TRUSTED_ORIGINS = config('SCRF_TRUSTED_ORIGINS', default=('https://*.railway.app').split(','))
 # Application definition
 
 INSTALLED_APPS = [
@@ -92,29 +92,36 @@ WSGI_APPLICATION = 'solita_salon.wsgi.application'
 
 DATABASES = {
     'default': dj_database_url.config(
-        default='postgres://localhost:5432/your_local_db',  # fallback for local
-        conn_max_age=600,  # persistent connections
-        ssl_require=True   # required by Render
+        default=config('DATABASE_URL', default='postgresql://solita_admin:password@localhost:5432/solita_db'),
+        conn_max_age=600
     )
-    }
+}
+    
 
 
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
 
+# Password validation
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
     },
     {
         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'OPTIONS': {
+            'min_length': 8,  # Explicitly set to match default
+        }
     },
     {
         'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
     },
     {
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+    },
+    {
+        'NAME': 'booking.validators.AlphanumericValidator',
     },
 ]
 
@@ -139,12 +146,12 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # collectstatic will put fi
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Render-specific settings
-if os.environ.get('RENDER'):
-    DEBUG = False
-    ALLOWED_HOSTS = ['solita-beauty-bar.onrender.com']
-    DATABASES = {
-        'default': dj_database_url.config(conn_max_age=600)
-    }
+#if os.environ.get('RENDER'):
+#    DEBUG = False
+ #   ALLOWED_HOSTS = ['solita-beauty-bar.onrender.com']
+  #  DATABASES = {
+   #     'default': dj_database_url.config(conn_max_age=600)
+    #}
     
     
 # Default primary key field type
@@ -156,9 +163,16 @@ LOGIN_URL = ' /login/'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
-# Email Configuration (Gmail SMTP)
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
+# login URL
+LOGIN_URL = '/login/'
+
+
+# Email Configuration (Elastic Email SMTP)
+EMAIL_BACKEND = 'anymail.backends.elasticemail.EmailBackend'
+ANYMAIL = {
+    'ELASTICEMAIL_API_KEY' : config('ELASTICEMAIL_API_KEY', default=''),
+}
+EMAIL_HOST = 'smtp.elasticmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'edmundrwegasira@gmail.com'  # Replace with your Gmail address
