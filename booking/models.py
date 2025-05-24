@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.dispatch import receiver
 from django.db.models.signals import pre_save
 import logging
+from cloudinary.models import CloudinaryField
 # Create your models here.
 
 class Service(models.Model):
@@ -10,7 +11,7 @@ class Service(models.Model):
     description = models.TextField(blank=True)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     duration_minutes = models.IntegerField()
-    image = models.ImageField(upload_to='services/', null=True, blank=True)
+    image = CloudinaryField('image')
     
     def __str__(self):
         return self.name
