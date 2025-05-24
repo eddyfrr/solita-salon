@@ -16,6 +16,7 @@ from django.contrib import messages
 import certifi
 import ssl
 from django.core.mail.backends.smtp import EmailBackend
+import cloudinary
 
 
 
@@ -442,4 +443,6 @@ def reset_password(request, uidb64, token):
       else:
           messages.error(request, 'Invalid or expired link.')
           return redirect('forgot_password')
+
+
 
