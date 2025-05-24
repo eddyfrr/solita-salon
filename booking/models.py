@@ -1,5 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.dispatch import receiver
+from django.db.models.signals import pre_save
+import logging
 # Create your models here.
 
 class Service(models.Model):
@@ -25,3 +28,9 @@ class Appointment(models.Model):
     def __str__(self):
         return f"{self.user.username} - {self.service.name} on {self.date} at {self.time}"
     
+logger = logging.getLogger(__name__)
+
+@receiver(pre_save, sender=Service)
+def log_image_upload(sender, instance, **kwargs):
+    if instance.image:
+        logger.debug(f"Uploading image: {instance.image}")
