@@ -58,6 +58,7 @@ CLOUDINARY_STORAGE = {
     'API_KEY': os.getenv('CLOUDINARY_API_KEY'),
     'API_SECRET': os.getenv('CLOUDINARY_API_SECRET'),
 }
+
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 MIDDLEWARE = [
@@ -149,14 +150,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # collectstatic will put fi
 STATICFILES_DIRS = [BASE_DIR / 'static']
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-# Render-specific settings
-#if os.environ.get('RENDER'):
-#    DEBUG = False
- #   ALLOWED_HOSTS = ['solita-beauty-bar.onrender.com']
-  #  DATABASES = {
-   #     'default': dj_database_url.config(conn_max_age=600)
-    #}
-    
+
     
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
@@ -165,7 +159,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_URL = ' /login/'
  
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = BASE_DIR / 'media'
 
 
 # login URL
