@@ -17,6 +17,7 @@ from decouple import config
 import logging
 from dotenv import load_dotenv
 load_dotenv()
+import cloudinary
 
 
 logging.basicConfig(level=logging.DEBUG)
@@ -61,9 +62,9 @@ INSTALLED_APPS = [
 ]
 
 CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': os.getenv('CLOUDINARY_CLOUD_NAME'),  # Default to your Cloud Name
-    'API_KEY':  os.getenv('CLOUDINARY_API_KEY'),
-    'API_SECRET': os.getenv('CLOUDINARY_API_SECRET'),
+    'CLOUD_NAME': os.getenv('CLOUDINARY_CLOUD_NAME', 'dmbyioctu'),  # Default to your Cloud Name
+    'API_KEY':  os.getenv('CLOUDINARY_API_KEY', '334771536338219'),
+    'API_SECRET': os.getenv('CLOUDINARY_API_SECRET', 'OvoJKsPUQAyN5AzzFFpv3qfmRWM'),
 }
 
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
