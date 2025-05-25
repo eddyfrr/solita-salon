@@ -48,8 +48,10 @@
         }
         .service-card img {
             width: 100%;
-            height: 30rem;
+            height: 25rem; /* Base height for desktop */
+            min-height: 15rem; /* Minimum height to avoid shrinking too much */
             object-fit: cover;
+            object-position: center; /* Center the subject */
             border-radius: 0.5rem;
             margin-bottom: 1rem;
         }
@@ -113,7 +115,8 @@
                 max-width: 350px;
             }
             .service-card img {
-                height: 14rem;
+                height: 18rem; /* Larger height for mobile */
+                min-height: 12rem; /* Minimum to keep it visible */
             }
             .services-container {
                 padding: 1rem;
