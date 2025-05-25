@@ -189,5 +189,5 @@ DEFAULT_FROM_EMAIL = 'Solita Salon <edmundrwegasira@gmail.com>'  # Replace with 
 CLICKPESA_CLIENT_ID = 'IDURoLVb5VfCjgYHojoGh3VlFs459jxV'
 CLICKPESA_API_KEY = 'SK7BLcOOzyMcBA68rDKcwbIHREfxLViknXjyRVdBXw'  # Replace with the new key from ClickPesa
 CLICKPESA_API_URL = 'https://api.clickpesa.com'
-CLICKPESA_SUCCESS_URL = 'https://3fb0-197-186-8-24.ngrok-free.app/success/'  # Redirect URL after payment
-CLICKPESA_FAILURE_URL = 'https://3fb0-197-186-8-24.ngrok-free.app/my_bookings/'  # Redirect URL if payment fails
+CLICKPESA_SUCCESS_URL = "https://solitabeautybar.up.railway.app/success/"
+CLICKPESA_FAILURE_URL = "https://solitabeautybar.up.railway.app/"  # Redirect to homepage on failure, or define a failure page
