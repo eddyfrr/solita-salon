@@ -2,8 +2,16 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Redirecting...</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            overflow-x: hidden;
+        }
+    </style>
 </head>
 <body onload="document.forms['redirectForm'].submit()">
     <form id="redirectForm" method="post" action="{% url 'review_booking' %}">

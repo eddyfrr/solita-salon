@@ -4,15 +4,23 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>My Bookings - Solita Salon</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>My Bookings - Solita Beauty Bar</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            overflow-x: hidden;
+        }
+    </style>
 </head>
 <body class="bg-purple-50 text-gray-800 font-[Inter]">
     <!-- Header -->
     <header class="flex items-center justify-between px-8 py-5 shadow-md bg-white">
-        <h1 class="text-2xl font-bold text-purple-700">Solita Beauty Salon</h1>
+        <h1 class="text-2xl font-bold text-purple-700">Solita Beauty Bar</h1>
         <nav class="space-x-8 flex text-sm font-medium">
             <a href="{% url 'service_list' %}" class="text-gray-700 hover:text-purple-600 transition">Services</a>
             <a href="{% url 'my_bookings' %}" class="text-purple-600 font-semibold">My Bookings</a>
@@ -21,7 +29,7 @@
     </header>
 
     <!-- My Bookings Section -->
-    <section class="max-w-7xl mx-auto py-16 px-8">
+    <section class="w-full max-w-7xl mx-auto py-16 px-8">
         <h2 class="text-3xl font-bold text-purple-800 mb-8 text-center">My Bookings</h2>
         {% if appointments %}
             <div class="grid md:grid-cols-2 gap-6">

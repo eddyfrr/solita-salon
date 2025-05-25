@@ -1,64 +1,72 @@
 {% load static %}
 
-  <!DOCTYPE html>
-  <html lang="en">
-  <head>
+<!DOCTYPE html>
+<html lang="en">
+<head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Register - Solita Salon</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Register - Solita Beauty Bar</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
-  </head>
-  <body class="bg-purple-50 text-gray-800 font-[Inter]">
-    <div class="min-h-screen flex items-center justify-center py-12 px-4">
-      <div class="bg-white p-8 rounded-lg shadow-lg max-w-md w-full">
-        <!-- Registration Form -->
-        <h2 class="text-3xl font-bold text-purple-800 mb-6 text-center">Register with Solita Salon</h2>
-        <form method="post" action="{% url 'user_register' %}">
-          {% csrf_token %}
-          <div class="mb-4">
-            <label for="id_username" class="block text-gray-700 font-medium mb-2">Username</label>
-            <input type="text" id="id_username" name="username" value="{{ form.username.value|default_if_none:'' }}" class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600" required>
-            {% if form.username.errors %}
-              <p class="text-red-600 text-sm mt-1">{{ form.username.errors }}</p>
-            {% endif %}
-          </div>
-          <div class="mb-4">
-            <label for="id_email" class="block text-gray-700 font-medium mb-2">Email</label>
-            <p class="text-sm text-gray-600 mb-1">Please use a Gmail address (e.g., your-email@gmail.com).</p>
-            <input type="email" id="id_email" name="email" value="{{ form.email.value|default_if_none:'' }}" class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600" required>
-            {% if form.email.errors %}
-              <p class="text-red-600 text-sm mt-1">{{ form.email.errors }}</p>
-            {% endif %}
-          </div>
-          <div class="mb-4">
-            <label for="id_password1" class="block text-gray-700 font-medium mb-2">Password</label>
-            <input type="password" id="id_password1" name="password1" class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600" required>
-            {% if form.password1.errors %}
-              <p class="text-red-600 text-sm mt-1">{{ form.password1.errors }}</p>
-            {% endif %}
-            <p class="text-sm text-gray-600 mt-1">Password must:</p>
-            <ul class="text-sm text-gray-600 list-disc list-inside">
-              <li>Be at least 8 characters long</li>
-              <li>Contain at least one letter and one number</li>
-              <li>Not be too common (e.g., "password123")</li>
-              <li>Not be too similar to your username or email</li>
-            </ul>
-          </div>
-          <div class="mb-6">
-            <label for="id_password2" class="block text-gray-700 font-medium mb-2">Confirm Password</label>
-            <input type="password" id="id_password2" name="password2" class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600" required>
-            {% if form.password2.errors %}
-              <p class="text-red-600 text-sm mt-1">{{ form.password2.errors }}</p>
-            {% endif %}
-            <p class="text-sm text-gray-600 mt-1">Enter the same password as above.</p>
-          </div>
-          <button type="submit" class="w-full bg-purple-600 text-white py-3 rounded-lg font-semibold hover:bg-purple-700 transition">Register</button>
-        </form>
-        <p class="mt-4 text-center text-sm text-gray-600">
-          Already have an account? <a href="{% url 'user_login' %}" class="text-purple-600 hover:underline">Log in here</a>.
-        </p>
-      </div>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            overflow-x: hidden;
+        }
+    </style>
+</head>
+<body class="bg-purple-50 text-gray-800 font-[Inter]">
+    <div class="min-h-screen flex items-center justify-center py-12 px-4 w-full">
+        <div class="bg-white p-8 rounded-lg shadow-lg max-w-md w-full">
+            <!-- Registration Form -->
+            <h2 class="text-3xl font-bold text-purple-800 mb-6 text-center">Register with Solita Beauty Bar</h2>
+            <form method="post" action="{% url 'user_register' %}">
+                {% csrf_token %}
+                <div class="mb-4">
+                    <label for="id_username" class="block text-gray-700 font-medium mb-2">Username</label>
+                    <input type="text" id="id_username" name="username" value="{{ form.username.value|default_if_none:'' }}" class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600" required>
+                    {% if form.username.errors %}
+                        <p class="text-red-600 text-sm mt-1">{{ form.username.errors }}</p>
+                    {% endif %}
+                </div>
+                <div class="mb-4">
+                    <label for="id_email" class="block text-gray-700 font-medium mb-2">Email</label>
+                    <p class="text-sm text-gray-600 mb-1">Please use a Gmail address (e.g., your-email@gmail.com).</p>
+                    <input type="email" id="id_email" name="email" value="{{ form.email.value|default_if_none:'' }}" class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600" required>
+                    {% if form.email.errors %}
+                        <p class="text-red-600 text-sm mt-1">{{ form.email.errors }}</p>
+                    {% endif %}
+                </div>
+                <div class="mb-4">
+                    <label for="id_password1" class="block text-gray-700 font-medium mb-2">Password</label>
+                    <input type="password" id="id_password1" name="password1" class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600" required>
+                    {% if form.password1.errors %}
+                        <p class="text-red-600 text-sm mt-1">{{ form.password1.errors }}</p>
+                    {% endif %}
+                    <p class="text-sm text-gray-600 mt-1">Password must:</p>
+                    <ul class="text-sm text-gray-600 list-disc list-inside">
+                        <li>Be at least 8 characters long</li>
+                        <li>Contain at least one letter and one number</li>
+                        <li>Not be too common (e.g., "password123")</li>
+                        <li>Not be too similar to your username or email</li>
+                    </ul>
+                </div>
+                <div class="mb-6">
+                    <label for="id_password2" class="block text-gray-700 font-medium mb-2">Confirm Password</label>
+                    <input type="password" id="id_password2" name="password2" class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600" required>
+                    {% if form.password2.errors %}
+                        <p class="text-red-600 text-sm mt-1">{{ form.password2.errors }}</p>
+                    {% endif %}
+                    <p class="text-sm text-gray-600 mt-1">Enter the same password as above.</p>
+                </div>
+                <button type="submit" class="w-full bg-purple-600 text-white py-3 rounded-lg font-semibold hover:bg-purple-700 transition">Register</button>
+            </form>
+            <p class="mt-4 text-center text-sm text-gray-600">
+                Already have an account? <a href="{% url 'user_login' %}" class="text-purple-600 hover:underline">Log in here</a>.
+            </p>
+        </div>
     </div>
-  </body>
-  </html>
+</body>
+</html>
