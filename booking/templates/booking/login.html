@@ -16,9 +16,20 @@
         }
     </style>
 </head>
-<body class="bg-purple-50 text-gray-800 font-[Inter]">
-    <div class="min-h-screen flex items-center justify-center py-12 px-4 w-full">
-        <div class="bg-white p-8 rounded-lg shadow-lg max-w-md w-full">
+<body class="bg-pink-50 text-gray-800 font-[Inter]">
+    <!-- Header -->
+    <header class="flex items-center justify-between px-8 py-5 shadow-md bg-white">
+        <h1 class="text-2xl font-bold text-pink-400">Solita Beauty Bar</h1>
+        <nav class="space-x-8 flex text-sm font-medium">
+            <a href="{% url 'service_list' %}" class="text-gray-700 hover:text-pink-500 transition">Services</a>
+            <a href="{% url 'my_bookings' %}" class="text-gray-700 hover:text-pink-500 transition">My Bookings</a>
+            <a href="{% url 'user_logout' %}" class="text-gray-700 hover:text-pink-500 transition">Logout ({{ user.username }})</a>
+        </nav>
+    </header>
+
+    <!-- Login Section -->
+    <section class="w-full max-w-7xl mx-auto py-16 px-8">
+        <div class="bg-white p-8 rounded-xl shadow-lg max-w-md mx-auto">
             <!-- Success/Error Messages -->
             {% if messages %}
                 <div class="mb-4">
@@ -31,28 +42,27 @@
                     {% endfor %}
                 </div>
             {% endif %}
-
             <!-- Login Form -->
-            <h2 class="text-3xl font-bold text-purple-800 mb-6 text-center">Login to Solita Beauty Bar</h2>
+            <h2 class="text-3xl font-bold text-pink-400 mb-6 text-center">Login to Solita Beauty Bar</h2>
             <form method="post" action="{% url 'user_login' %}">
                 {% csrf_token %}
                 <div class="mb-4">
                     <label for="username" class="block text-gray-700 font-medium mb-2">Username</label>
-                    <input type="text" id="username" name="username" class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600" required>
+                    <input type="text" id="username" name="username" class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-400" required>
                 </div>
                 <div class="mb-6">
                     <label for="password" class="block text-gray-700 font-medium mb-2">Password</label>
-                    <input type="password" id="password" name="password" class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600" required>
+                    <input type="password" id="password" name="password" class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-400" required>
                 </div>
-                <button type="submit" class="w-full bg-purple-600 text-white py-3 rounded-lg font-semibold hover:bg-purple-700 transition">Login</button>
+                <button type="submit" class="w-full bg-pink-400 text-white py-3 rounded-lg font-semibold hover:bg-pink- Hawkins text-gray-700">Login</button>
             </form>
             <p class="mt-4 text-center text-sm text-gray-600">
-                Don't have an account? <a href="{% url 'user_register' %}" class="text-purple-600 hover:underline">Register here</a>.
+                Don't have an account? <a href="{% url 'user_register' %}" class="text-pink-400 hover:underline">Register here</a>.
             </p>
             <p class="mt-2 text-center text-sm text-gray-600">
-                Forgot your password? <a href="{% url 'forgot_password' %}" class="text-purple-600 hover:underline">Reset it here</a>.
+                Forgot your password? <a href="{% url 'forgot_password' %}" class="text-pink-400 hover:underline">Reset it here</a>.
             </p>
         </div>
-    </div>
+    </section>
 </body>
 </html>
