@@ -16,22 +16,22 @@
         }
     </style>
 </head>
-<body class="bg-purple-50 text-gray-800 font-[Inter]">
+<body class="bg-pink-50 text-gray-800 font-[Inter]"> <!-- Changed from bg-purple-50 -->
     <!-- Header -->
     <header class="flex items-center justify-between px-8 py-5 shadow-md bg-white">
-        <h1 class="text-2xl font-bold text-purple-700">Solita Beauty Bar</h1>
+        <h1 class="text-2xl font-bold text-pink-400">Solita Beauty Bar</h1> <!-- Changed from text-purple-700 -->
         <nav class="space-x-8 flex text-sm font-medium">
-            <a href="{% url 'service_list' %}" class="text-gray-700 hover:text-purple-600 transition">Services</a>
-            <a href="{% url 'my_bookings' %}" class="text-gray-700 hover:text-purple-600 transition">My Bookings</a>
-            <a href="{% url 'user_logout' %}" class="text-gray-700 hover:text-purple-600 transition">Logout ({{ user.username }})</a>
+            <a href="{% url 'service_list' %}" class="text-gray-700 hover:text-pink-500 transition">Services</a> <!-- Changed from hover:text-purple-600 -->
+            <a href="{% url 'my_bookings' %}" class="text-gray-700 hover:text-pink-500 transition">My Bookings</a> <!-- Changed from hover:text-purple-600 -->
+            <a href="{% url 'user_logout' %}" class="text-gray-700 hover:text-pink-500 transition">Logout ({{ user.username }})</a> <!-- Changed from hover:text-purple-600 -->
         </nav>
     </header>
 
     <!-- Payment Section -->
     <section class="w-full max-w-7xl mx-auto py-16 px-8">
-        <h2 class="text-3xl font-bold text-purple-800 mb-8 text-center">Payment Details</h2>
+        <h2 class="text-3xl font-bold text-pink-400 mb-8 text-center">Payment Details</h2> <!-- Changed from text-purple-800 -->
         <div class="bg-white rounded-xl p-6 shadow-lg max-w-md mx-auto">
-            <h3 class="text-xl font-bold text-purple-800 mb-4">Booking Summary</h3>
+            <h3 class="text-xl font-bold text-pink-400 mb-4">Booking Summary</h3> <!-- Changed from text-purple-800 -->
             {% if error %}
                 <p class="text-red-600 text-sm mb-4">{{ error }}</p>
             {% endif %}
@@ -48,11 +48,11 @@
                 <input type="hidden" name="time" value="{{ time|time:'H:i:s' }}">
                 <input type="hidden" name="appointment_id" value="{{ appointment_id }}">
                 <input type="hidden" name="confirm_payment" value="true">
-                <button id="payment-button" type="submit" class="w-full bg-purple-600 text-white py-3 rounded-lg font-semibold hover:bg-purple-700 transition">Confirm Payment</button>
+                <button id="payment-button" type="submit" class="w-full bg-pink-400 text-white py-3 rounded-lg font-semibold hover:bg-pink-500 transition">Confirm Payment</button> <!-- Changed from bg-purple-600, hover:bg-purple-700 -->
             </form>
             <!-- Loading Indicator (Hidden by Default) -->
             <div id="loading-indicator" class="hidden flex items-center justify-center mt-4">
-                <svg class="animate-spin h-5 w-5 text-purple-600 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <svg class="animate-spin h-5 w-5 text-pink-400 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"> <!-- Changed from text-purple-600 -->
                     <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                     <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                 </svg>

@@ -12,7 +12,7 @@
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <style>
         body {
-            background-color: #f3e8ff;
+            background-color: #fdf2f8;
             color: #1f2937;
             font-family: 'Inter', sans-serif;
             margin: 0;
@@ -48,17 +48,17 @@
         }
         .service-card img {
             width: 100%;
-            height: 25rem; /* Base height for desktop */
-            min-height: 15rem; /* Minimum height to avoid shrinking too much */
+            height: 25rem;
+            min-height: 15rem;
             object-fit: cover;
-            object-position: center; /* Center the subject */
+            object-position: center;
             border-radius: 0.5rem;
             margin-bottom: 1rem;
         }
         .service-card h3 {
             font-size: 1.25rem;
             font-weight: 700;
-            color: #6b21a8;
+            color: #f5d0e6;
             margin-bottom: 0.5rem;
         }
         .service-card p {
@@ -69,7 +69,7 @@
         }
         .book-now-btn {
             width: 100%;
-            background-color: #9333ea;
+            background-color: #f5d0e6;
             color: #ffffff;
             padding: 0.75rem;
             border-radius: 0.5rem;
@@ -77,7 +77,7 @@
             transition: background-color 0.3s, transform 0.2s;
         }
         .book-now-btn:hover {
-            background-color: #7e22ce;
+            background-color: #f1b7d6;
             transform: scale(1.05);
         }
         .form-container {
@@ -115,13 +115,12 @@
                 max-width: 350px;
             }
             .service-card img {
-                height: 18rem; /* Larger height for mobile */
-                min-height: 12rem; /* Minimum to keep it visible */
+                height: 18rem;
+                min-height: 12rem;
             }
             .services-container {
                 padding: 1rem;
             }
-            /* Override max-width on mobile */
             section {
                 width: 100% !important;
                 max-width: none !important;
@@ -134,18 +133,18 @@
 <body>
     <!-- Header -->
     <header class="flex items-center justify-between px-8 py-5">
-        <h1 class="text-2xl font-bold text-purple-700">Solita Beauty Bar</h1>
+        <h1 class="text-2xl font-bold text-pink-400">Solita Beauty Bar</h1>
         <nav class="space-x-8 flex text-sm font-medium">
-            <a href="{% url 'service_list' %}" class="text-gray-700 hover:text-purple-600 transition">Services</a>
-            <a href="{% url 'my_bookings' %}" class="text-gray-700 hover:text-purple-600 transition">My Bookings</a>
-            <a href="{% url 'user_logout' %}" class="text-gray-700 hover:text-purple-600 transition">Logout ({{ user.username }})</a>
+            <a href="{% url 'service_list' %}" class="text-gray-700 hover:text-pink-500 transition">Services</a>
+            <a href="{% url 'my_bookings' %}" class="text-gray-700 hover:text-pink-500 transition">My Bookings</a>
+            <a href="{% url 'user_logout' %}" class="text-gray-700 hover:text-pink-500 transition">Logout ({{ user.username }})</a>
         </nav>
     </header>
 
     <!-- Hero Section -->
-    <section class="relative bg-purple-50 py-16 px-8 text-center w-full">
+    <section class="relative bg-pink-50 py-16 px-8 text-center w-full">
         <div class="w-full max-w-7xl mx-auto">
-            <h2 class="text-4xl font-bold text-purple-800 mb-4">Welcome to Solita Beauty Bar</h2>
+            <h2 class="text-4xl font-bold text-pink-400 mb-4">Welcome to Solita Beauty Bar</h2>
             <p class="text-lg text-gray-600 mb-8">Book your appointment today and let us pamper you with our premium services.</p>
             <a href="#services" class="book-now-btn inline-block w-auto px-6">Explore Services</a>
         </div>
@@ -153,7 +152,7 @@
 
     <!-- Services Section -->
     <section class="w-full max-w-7xl mx-auto py-16 px-8" id="services">
-        <h2 class="text-3xl font-bold text-purple-800 mb-8 text-center">Our Services</h2>
+        <h2 class="text-3xl font-bold text-pink-400 mb-8 text-center">Our Services</h2> <!-- Changed from text-pink-700 -->
         <div class="services-container">
             {% for service in services %}
             <div class="service-card">
@@ -172,7 +171,7 @@
 
         {% if selected_service %}
         <div class="form-container">
-            <h3 class="text-xl font-bold text-purple-800 mb-4 text-center">Book {{ selected_service.name }}</h3>
+            <h3 class="text-xl font-bold text-pink-700 mb-4 text-center">Book {{ selected_service.name }}</h3>
             <form method="post" action="{% url 'book_appointment' %}" class="space-y-4" id="booking-form" onsubmit="return validateBeforeSubmit(event)">
                 {% csrf_token %}
                 <input type="hidden" name="service_id" value="{{ selected_service.id }}">
@@ -262,7 +261,6 @@
             return true;
         }
 
-        // Initial validation call
         validateForm();
     </script>
 </body>
