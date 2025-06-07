@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
-from .models import Service, Appointment
+from .models import Service, ServiceType, Appointment
 from .forms import AppointmentForm, RegisterForm
 from datetime import datetime
 import requests
@@ -19,7 +19,6 @@ from django.core.mail.backends.smtp import EmailBackend
 import cloudinary
 
 
-
 def service_list(request):
     services = Service.objects.all()
     print(f"[service_list] Services: {list(services)}")
@@ -29,26 +28,36 @@ def service_list(request):
 def book_appointment(request):
     services = Service.objects.all()
     selected_service = None
-    form = AppointmentForm()
+    form = None
 
     if request.method == "POST":
         print(f"[book_appointment] Received POST request: {request.POST}, User: {request.user.username}")
-        if 'service_id' in request.POST:
-            selected_service = get_object_or_404(Service, id=request.POST['service_id'])
-
-        form = AppointmentForm(request.POST)
-        if form.is_valid() and selected_service:
-            date_str = form.cleaned_data['date'].strftime('%Y-%m-%d')
-            time_obj = form.cleaned_data['time']
-            time_str = time_obj.strftime('%H:%M:%S')
-            print(f"[book_appointment] Form valid, redirecting to review_booking with date: {date_str}, time: {time_str}")
-            return render(request, 'booking/redirect_to_review.html', {
-                'service_id': selected_service.id,
-                'date': date_str,
-                'time': time_str
-            })
+        service_id = request.POST.get('service_id')
+        if service_id:
+            selected_service = get_object_or_404(Service, id=service_id)
+            form = AppointmentForm(request.POST, service_id=service_id)
+            print(f"[book_appointment] Form data: service_id={service_id}, service={request.POST.get('service')}, service_type={request.POST.get('service_type')}, date={request.POST.get('date')}, time={request.POST.get('time')}")
+            if form.is_valid():
+                date_str = form.cleaned_data['date'].strftime('%Y-%m-%d')
+                time_obj = form.cleaned_data['time']
+                time_str = time_obj.strftime('%H:%M:%S')
+                service_type = form.cleaned_data['service_type']
+                print(f"[book_appointment] Form valid, redirecting with date: {date_str}, time: {time_str}, type: {service_type}")
+                return render(request, 'booking/redirect_to_review.html', {
+                    'service_id': selected_service.id,
+                    'service_type_id': service_type.id,
+                    'date': date_str,
+                    'time': time_str
+                })
+            else:
+                print(f"[book_appointment] Form validation failed: {form.errors}")
         else:
-            print(f"[book_appointment] Form validation failed: {form.errors}")
+            print("[book_appointment] No service_id in POST")
+    else:
+        service_id = request.GET.get('service_id')
+        if service_id:
+            selected_service = get_object_or_404(Service, id=service_id)
+            form = AppointmentForm(service_id=service_id, initial={'service': selected_service})
 
     print("[book_appointment] Rendering service_list.html")
     return render(request, 'booking/service_list.html', {
@@ -61,32 +70,37 @@ def book_appointment(request):
 def review_booking(request):
     if request.method == "POST":
         service_id = request.POST.get('service_id')
+        service_type_id = request.POST.get('service_type_id')
         date_str = request.POST.get('date')
         time_str = request.POST.get('time')
 
-        print(f"[review_booking] Received POST request: service_id={service_id}, date={date_str}, time={time_str}, User: {request.user.username}")
+        print(f"[review_booking] Received POST: service_id={service_id}, service_type_id={service_type_id}, date={date_str}, time={time_str}, User: {request.user.username}")
 
-        if not all([service_id, date_str, time_str]):
+        if not all([service_id, service_type_id, date_str, time_str]):
             print("[review_booking] Missing required fields")
             return redirect('service_list')
 
         try:
             service = get_object_or_404(Service, id=service_id)
+            service_type = get_object_or_404(ServiceType, id=service_type_id)
             date_obj = datetime.strptime(date_str, '%Y-%m-%d').date()
             time_obj = datetime.strptime(time_str, '%H:%M:%S').time()
             appointment = Appointment.objects.create(
                 user=request.user,
                 service=service,
+                service_type=service_type,
                 date=date_obj,
-                time=time_obj
+                time=time_obj,
+                price=service_type.price
             )
-            print(f"[review_booking] Appointment Created - ID: {appointment.id}, User: {appointment.user.username}, Service: {appointment.service.name}")
+            print(f"[review_booking] Appointment Created - ID: {appointment.id}, User: {appointment.user.username}, Service: {appointment.service.name}, Type: {appointment.service_type.type_name}")
             time_display = time_obj.strftime('%I:%M %p')
             print(f"[review_booking] Rendering review_booking.html with appointment_id={appointment.id}")
             return render(request, 'booking/review_booking.html', {
                 'service': service,
+                'service_type': service_type,
                 'date': date_obj,
-                'time': time_str,
+                'time': time_obj,
                 'time_display': time_display,
                 'appointment_id': appointment.id
             })
@@ -125,11 +139,12 @@ def process_payment(request):
 
         if 'confirm_payment' in request.POST:
             service_id = request.POST.get('service_id')
+            service_type_id = request.POST.get('service_type_id')
             date_str = request.POST.get('date')
             time_str = request.POST.get('time')
             appointment_id = request.POST.get('appointment_id')
 
-            print(f"[process_payment] Confirm Payment - service_id={service_id}, date={date_str}, time={time_str}, appointment_id={appointment_id}, User: {request.user.username}")
+            print(f"[process_payment] Confirm Payment - service_id={service_id}, service_type_id={service_type_id}, date={date_str}, time={time_str}, appointment_id={appointment_id}, User: {request.user.username}")
 
             if not appointment_id:
                 appointment_id = request.session.get('appointment_id')
@@ -139,16 +154,17 @@ def process_payment(request):
 
             appointment = get_object_or_404(Appointment, id=appointment_id, user=request.user)
             service = get_object_or_404(Service, id=service_id) if service_id else appointment.service
+            service_type = get_object_or_404(ServiceType, id=service_type_id) if service_type_id else appointment.service_type
             date_str = date_str or appointment.date.strftime('%Y-%m-%d')
             time_str = time_str or appointment.time.strftime('%H:%M:%S')
 
-            if not all([service_id, date_str, time_str]):
+            if not all([service_id, service_type_id, date_str, time_str]):
                 print("[process_payment] Missing required fields (excluding appointment_id)")
                 return redirect('service_list')
 
             url = "https://api.clickpesa.com/third-parties/checkout-link/generate-checkout-url"
             payload = {
-                "totalPrice": str(service.price),
+                "totalPrice": str(service_type.price),
                 "orderReference": f"SOLITA{appointment.id}",
                 "orderCurrency": "TZS",
                 "customerName": request.user.get_full_name() or request.user.username,
@@ -165,6 +181,7 @@ def process_payment(request):
                 request.session['appointment_id'] = appointment.id
                 return render(request, 'booking/payment.html', {
                     'service': service,
+                    'service_type': service_type,
                     'date': datetime.strptime(date_str, '%Y-%m-%d').date(),
                     'time': time_str,
                     'time_display': datetime.strptime(time_str, '%H:%M:%S').strftime('%I:%M %p'),
@@ -194,6 +211,7 @@ def process_payment(request):
                     request.session['appointment_id'] = appointment.id
                     return render(request, 'booking/payment.html', {
                         'service': service,
+                        'service_type': service_type,
                         'date': datetime.strptime(date_str, '%Y-%m-%d').date(),
                         'time': time_str,
                         'time_display': datetime.strptime(time_str, '%H:%M:%S').strftime('%I:%M %p'),
@@ -205,6 +223,7 @@ def process_payment(request):
                 request.session['appointment_id'] = appointment.id
                 return render(request, 'booking/payment.html', {
                     'service': service,
+                    'service_type': service_type,
                     'date': datetime.strptime(date_str, '%Y-%m-%d').date(),
                     'time': time_str,
                     'time_display': datetime.strptime(time_str, '%H:%M:%S').strftime('%I:%M %p'),
@@ -219,6 +238,7 @@ def process_payment(request):
 
         appointment = get_object_or_404(Appointment, id=appointment_id, user=request.user)
         service = appointment.service
+        service_type = appointment.service_type
         date_str = appointment.date.strftime('%Y-%m-%d')
         time_str = appointment.time.strftime('%H:%M:%S')
 
@@ -226,6 +246,7 @@ def process_payment(request):
 
         return render(request, 'booking/payment.html', {
             'service': service,
+            'service_type': service_type,
             'date': appointment.date,
             'time': time_str,
             'time_display': appointment.time.strftime('%I:%M %p'),
@@ -239,6 +260,7 @@ def process_payment(request):
 
     appointment = get_object_or_404(Appointment, id=appointment_id, user=request.user)
     service = appointment.service
+    service_type = appointment.service_type
     date_str = appointment.date.strftime('%Y-%m-%d')
     time_str = appointment.time.strftime('%H:%M:%S')
 
@@ -246,6 +268,7 @@ def process_payment(request):
 
     return render(request, 'booking/payment.html', {
         'service': service,
+        'service_type': service_type,
         'date': appointment.date,
         'time': time_str,
         'time_display': appointment.time.strftime('%I:%M %p'),
@@ -292,14 +315,16 @@ def payment_callback(request):
 def confirm_payment(request):
     if request.method == "POST":
         service_id = request.POST.get('service_id')
+        service_type_id = request.POST.get('service_type_id')
         date_str = request.POST.get('date')
         time_str = request.POST.get('time')
-        print(f"[confirm_payment] Received POST request: service_id={service_id}, date={date_str}, time={time_str}, User: {request.user.username}")
+        print(f"[confirm_payment] Received POST request: service_id={service_id}, service_type_id={service_type_id}, date={date_str}, time={time_str}, User: {request.user.username}")
 
-        if not all([service_id, date_str, time_str]):
+        if not all([service_id, service_type_id, date_str, time_str]):
             print("[confirm_payment] Missing required fields")
             return render(request, 'booking/payment.html', {
                 'service': get_object_or_404(Service, id=service_id) if service_id else None,
+                'service_type': get_object_or_404(ServiceType, id=service_type_id) if service_type_id else None,
                 'date': date_str,
                 'time': time_str,
                 'time_display': time_str,
@@ -307,12 +332,14 @@ def confirm_payment(request):
             })
 
         service = get_object_or_404(Service, id=service_id)
+        service_type = get_object_or_404(ServiceType, id=service_type_id)
         try:
             time_obj = datetime.strptime(time_str, '%H:%M:%S').time()
         except ValueError as e:
             print(f"[confirm_payment] Time parsing error: {e}")
             return render(request, 'booking/payment.html', {
                 'service': service,
+                'service_type': service_type,
                 'date': date_str,
                 'time': time_str,
                 'time_display': time_str,
@@ -322,9 +349,10 @@ def confirm_payment(request):
         try:
             date_obj = datetime.strptime(date_str, '%Y-%m-%d').date()
         except ValueError as e:
-            print(f"[confirm_payment] Date parsing error: {e}")
+            print(f"[confirm_payment] {str(e)}")
             return render(request, 'booking/payment.html', {
                 'service': service,
+                'service_type': service_type,
                 'date': date_str,
                 'time': time_str,
                 'time_display': time_obj.strftime('%I:%M %p'),
@@ -335,26 +363,26 @@ def confirm_payment(request):
             appointment = Appointment(
                 user=request.user,
                 service=service,
+                service_type=service_type,
                 date=date_obj,
-                time=time_obj
+                time=time_obj,
+                price=service_type.price
             )
             print("[confirm_payment] Saving appointment")
             appointment.save()
         except Exception as e:
-            print(f"[confirm_payment] Error saving appointment: {e}")
+            print(f"[confirm_payment] Error saving appointment: {str(e)}")
             return render(request, 'booking/payment.html', {
                 'service': service,
+                'service_type': service_type,
                 'date': date_str,
                 'time': time_str,
                 'time_display': time_obj.strftime('%I:%M %p'),
-                'error': f'Error saving appointment: {str(e)}'
+                'error': f'Failed saving appointment: {str(e)}'
             })
 
         print("[confirm_payment] Redirecting to success_page")
         return redirect('success_page')
-
-    print("[confirm_payment] Redirecting to service_list")
-    return redirect('service_list')
 
 @login_required
 def success_page(request):
@@ -391,58 +419,50 @@ def user_register(request):
         form = RegisterForm()
     return render(request, 'booking/register.html', {'form': form})
 
-@login_required
 def user_logout(request):
     logout(request)
     return redirect('user_login')
 
 def forgot_password(request):
-      if request.method == 'POST':
-          email = request.POST.get('email')
-          try:
-              user = User.objects.get(email=email)
-              token = default_token_generator.make_token(user)
-              uid = urlsafe_base64_encode(force_bytes(user.pk))
-              reset_link = f"{request.scheme}://{request.get_host()}/reset-password/{uid}/{token}/"
-              send_mail(
-                  subject='Password Reset Request',
-                  message=f'Click the link to reset your password: {reset_link}\nThis link will expire in 1 hour.',
-                  from_email=settings.DEFAULT_FROM_EMAIL,
-                  recipient_list=[email],
-                  html_message=f'<p>Click <a href="{reset_link}">here</a> to reset your password.</p><>This link will expire in 1 hour.</p><p><a href="{unsubscribe}">Unsubscribe</a></p>',
-                  extra_tags={'isTransactional': True}
-              )
-              messages.success(request, 'Password reset link sent to your email.')
-              return redirect('forgot_password')
-          except User.DoesNotExist:
-              messages.error(request, 'Email not found.')
-              return redirect('forgot_password')
-          except User.MultipleObjectsReturned:
-              messages.error(request, 'Multiple accounts found for this email. Please contact support.')
-              return redirect('forgot_password')
-          except Exception as e:
-              messages.error(request, f'Failed to send email: {str(e)}')
-              return redirect('forgot_password')
-      return render(request, 'booking/forgot_password.html')
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        try:
+            user = User.objects.get(email=email)
+            token = default_token_generator.make_token(user)
+            uid = urlsafe_base64_encode(force_bytes(user.pk))
+            reset_link = f"{request.scheme}://{request.get_host()}/reset-password/{uid}/{token}/"
+            send_mail(
+                subject='Password Reset Request',
+                message=f'Click the link to reset your password: {reset_link}\nThis link will expire in 1 hour.',
+                from_email=settings.DEFAULT_FROM_EMAIL,
+                recipient_list=[email],
+                html_message=f'<p>Click <a href="{reset_link}">here</a> to reset your password.</p><p>This link will expire in 1 hour.</p>',
+            )
+            messages.success(request, 'Password reset link sent to your email.')
+            return redirect('forgot_password')
+        except User.DoesNotExist:
+            messages.error(request, 'Email not found.')
+            return redirect('forgot_password')
+        except Exception as e:
+            messages.error(request, f'Failed to send email: {str(e)}')
+            return redirect('forgot_password')
+    return render(request, 'booking/forgot_password.html')
 
 def reset_password(request, uidb64, token):
-      try:
-          uid = urlsafe_base64_decode(uidb64).decode()
-          user = User.objects.get(pk=uid)
-      except (TypeError, ValueError, OverflowError, User.DoesNotExist):
-          user = None
+    try:
+        uid = urlsafe_base64_decode(uidb64).decode()
+        user = User.objects.get(pk=uid)
+    except (TypeError, ValueError, OverflowError, User.DoesNotExist):
+        user = None
 
-      if user and default_token_generator.check_token(user, token):
-          if request.method == 'POST':
-              password = request.POST.get('new_password')
-              user.set_password(password)
-              user.save()
-              messages.success(request, 'Password reset successfully. You can now log in.')
-              return redirect('user_login')
-          return render(request, 'booking/reset_password.html', {'uidb64': uidb64, 'token': token})
-      else:
-          messages.error(request, 'Invalid or expired link.')
-          return redirect('forgot_password')
-
-
-
+    if user and default_token_generator.check_token(user, token):
+        if request.method == 'POST':
+            password = request.POST.get('new_password')
+            user.set_password(password)
+            user.save()
+            messages.success(request, 'Password reset successfully. You can now log in.')
+            return redirect('user_login')
+        return render(request, 'booking/reset_password.html', {'uidb64': uidb64, 'token': token})
+    else:
+        messages.error(request, 'Invalid or expired link.')
+        return redirect('forgot_password')

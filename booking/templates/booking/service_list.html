@@ -1,5 +1,4 @@
 {% load static %}
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -89,6 +88,7 @@
             padding: 2rem;
             border-radius: 0.75rem;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            scroll-margin-top: 100px; /* Offset for smooth scroll */
         }
         .form-container label {
             display: block;
@@ -97,7 +97,7 @@
             color: #374151;
             margin-bottom: 0.25rem;
         }
-        .form-container input {
+        .form-container select, .form-container input {
             width: 100%;
             padding: 0.5rem;
             border: 1px solid #d1d5db;
@@ -131,7 +131,6 @@
     </style>
 </head>
 <body>
-    <!-- Header -->
     <header class="flex items-center justify-between px-8 py-5">
         <h1 class="text-2xl font-bold text-pink-400">Solita Beauty Bar</h1>
         <nav class="space-x-8 flex text-sm font-medium">
@@ -141,7 +140,6 @@
         </nav>
     </header>
 
-    <!-- Hero Section -->
     <section class="relative bg-pink-50 py-16 px-8 text-center w-full">
         <div class="w-full max-w-7xl mx-auto">
             <h2 class="text-4xl font-bold text-pink-400 mb-4">Welcome to Solita Beauty Bar VIP Braiding Tour</h2>
@@ -150,16 +148,20 @@
         </div>
     </section>
 
-    <!-- Services Section -->
     <section class="w-full max-w-7xl mx-auto py-16 px-8" id="services">
-        <h2 class="text-3xl font-bold text-pink-400 mb-8 text-center">Our Services</h2> <!-- Changed from text-pink-700 -->
+        <h2 class="text-3xl font-bold text-pink-400 mb-8 text-center">Our Services</h2>
         <div class="services-container">
             {% for service in services %}
             <div class="service-card">
                 <img src="{% if service.image %}{{ service.image.url }}{% else %}{% static 'images/default-service.jpg' %}{% endif %}" alt="{{ service.name }}">
                 <h3>{{ service.name }}</h3>
                 <p>{{ service.description }}</p>
-                <p>Price: <span class="italic text-gray-500">Tsh{{ service.price }}</span></p>
+                <h4 class="text-sm font-medium text-gray-700 mt-2">Types:</h4>
+                <ul class="text-sm text-gray-600">
+                    {% for type in service.types.all %}
+                    <li>{{ type.type_name }}: TSH {{ type.price }}</li>
+                    {% endfor %}
+                </ul>
                 <form method="post" action="{% url 'book_appointment' %}" class="mt-4">
                     {% csrf_token %}
                     <input type="hidden" name="service_id" value="{{ service.id }}">
@@ -172,10 +174,14 @@
         {% if selected_service %}
         <div class="form-container">
             <h3 class="text-xl font-bold text-pink-700 mb-4 text-center">Book {{ selected_service.name }}</h3>
-            <form method="post" action="{% url 'book_appointment' %}" class="space-y-4" id="booking-form" onsubmit="return validateBeforeSubmit(event)">
+            <form method="post" action="{% url 'book_appointment' %}" class="space-y-4" id="booking-form">
                 {% csrf_token %}
                 <input type="hidden" name="service_id" value="{{ selected_service.id }}">
-
+                <input type="hidden" name="service" value="{{ selected_service.id }}">
+                <div>
+                    <label for="id_service_type">Type</label>
+                    {{ form.service_type }}
+                </div>
                 <div>
                     <label for="id_date">Date (Tuesday-Sunday)</label>
                     {{ form.date }}
@@ -184,14 +190,9 @@
                     <label for="id_time">Time (8 AM - 9 PM)</label>
                     {{ form.time }}
                 </div>
-                <p class="text-gray-500 italic text-center">We are open Tuesday to Sunday, 8 AM to 9 PM. Closed on Mondays.</p>
-                <button type="submit" class="book-now-btn" id="submit-btn" disabled>Book Appointment</button>
+                <p class="text-gray-500 italic text-center text-sm">We are open Tuesday to Sunday, 8 AM to 9 PM. Closed on Mondays.</p>
+                <button type="submit" class="book-now-btn">Book Appointment</button>
             </form>
-            {% if messages %}
-                {% for message in messages %}
-                    <p class="error-message">{{ message }}</p>
-                {% endfor %}
-            {% endif %}
         </div>
         {% endif %}
     </section>
@@ -203,23 +204,11 @@
             minDate: "today",
             disable: [
                 function(date) {
-                    return date.getDay() === 1; // Disable Mondays
+                    return date.getDay() === 1; // Disable Monday
                 }
             ],
             onChange: function(selectedDates, dateStr, instance) {
-                if (selectedDates.length > 0) {
-                    const selectedDate = selectedDates[0];
-                    if (selectedDate.getDay() === 1) {
-                        alert('We are closed on Mondays. Please select a date from Tuesday to Sunday.');
-                        instance.clear();
-                    }
-                    document.querySelector('#id_date').value = dateStr;
-                }
-                validateForm();
-            },
-            onClose: function(selectedDates, dateStr, instance) {
                 document.querySelector('#id_date').value = dateStr;
-                validateForm();
             }
         });
 
@@ -235,33 +224,16 @@
             defaultMinute: 0,
             onChange: function(selectedDates, dateStr, instance) {
                 document.querySelector('#id_time').value = dateStr;
-                validateForm();
-            },
-            onClose: function(selectedDates, dateStr, instance) {
-                document.querySelector('#id_time').value = dateStr;
-                validateForm();
             }
         });
 
-        function validateForm() {
-            const dateInput = document.querySelector('#id_date').value;
-            const timeInput = document.querySelector('#id_time').value;
-            const submitBtn = document.querySelector('#submit-btn');
-            submitBtn.disabled = !(dateInput && timeInput);
-        }
-
-        function validateBeforeSubmit(event) {
-            const dateInput = document.querySelector('#id_date').value;
-            const timeInput = document.querySelector('#id_time').value;
-            if (!dateInput || !timeInput) {
-                event.preventDefault();
-                alert('Please select both a date and time before submitting.');
-                return false;
+        // Auto-scroll to form-container if it exists on page load
+        window.addEventListener('DOMContentLoaded', () => {
+            const formContainer = document.querySelector('.form-container');
+            if (formContainer) {
+                formContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }
-            return true;
-        }
-
-        validateForm();
+        });
     </script>
 </body>
 </html>
