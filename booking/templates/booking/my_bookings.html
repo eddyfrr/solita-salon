@@ -17,7 +17,6 @@
     </style>
 </head>
 <body class="bg-pink-50 text-gray-800 font-[Inter]">
-    <!-- Header -->
     <header class="flex items-center justify-between px-8 py-5 shadow-md bg-white">
         <h1 class="text-2xl font-bold text-pink-400">Solita Beauty Bar</h1>
         <nav class="space-x-8 flex text-sm font-medium">
@@ -27,17 +26,16 @@
         </nav>
     </header>
 
-    <!-- My Bookings Section -->
     <section class="w-full max-w-7xl mx-auto py-16 px-8">
         <h2 class="text-3xl font-bold text-pink-400 mb-8 text-center">My Bookings</h2>
         {% if appointments %}
             <div class="grid md:grid-cols-2 gap-6">
                 {% for appointment in appointments %}
                     <div class="bg-white rounded-xl p-6 shadow-md">
-                        <h3 class="text-xl font-semibold text-gray-800 mb-2">{{ appointment.service.name }}{% if appointment.service_type %} - {{ appointment.service_type.type_name }}{% endif %}</h3>
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">{{ appointment.service.name }} - {{ appointment.service_type.type_name }}</h3>
                         <p class="text-sm text-gray-600">Date: {{ appointment.date|date:"F d, Y" }}</p>
                         <p class="text-sm text-gray-600">Time: {{ appointment.time|time:"h:i A" }}</p>
-                        <p class="text-sm text-gray-600">Price: Tsh {{ appointment.price }}</p>
+                        <p class="text-sm text-gray-600">Price: TSH {{ appointment.price }}</p>
                     </div>
                 {% endfor %}
             </div>

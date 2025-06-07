@@ -1,5 +1,4 @@
 {% load static %}
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,7 +9,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body {
-            background-color: #fdf2f8; /* Changed from #f3e8ff (light purple) to very faint pink */
+            background-color: #fdf2f8;
             color: #1f2937;
             font-family: 'Inter', sans-serif;
             margin: 0;
@@ -23,7 +22,7 @@
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
         }
         .confirm-btn {
-            background-color: #f5d0e6; /* Changed from #9333ea (purple) to very faint pink */
+            background-color: #f5d0e6;
             color: #ffffff;
             padding: 0.75rem 1.5rem;
             border-radius: 0.5rem;
@@ -31,33 +30,33 @@
             transition: background-color 0.3s;
         }
         .confirm-btn:hover {
-            background-color: #f1b7d6; /* Changed from #7e22ce (darker purple) to slightly deeper faint pink */
+            background-color: #f1b7d6;
         }
     </style>
 </head>
 <body>
     <header class="flex items-center justify-between px-8 py-5">
-        <h1 class="text-2xl font-bold text-pink-400">Solita Beauty Bar</h1> <!-- Changed from text-purple-700 -->
+        <h1 class="text-2xl font-bold text-pink-400">Solita Beauty Bar</h1>
         <nav class="space-x-8 flex text-sm font-medium">
-            <a href="{% url 'service_list' %}" class="text-gray-700 hover:text-pink-500 transition">Services</a> <!-- Changed from hover:text-purple-600 -->
-            <a href="{% url 'my_bookings' %}" class="text-gray-700 hover:text-pink-500 transition">My Bookings</a> <!-- Changed from hover:text-purple-600 -->
-            <a href="{% url 'user_logout' %}" class="text-gray-700 hover:text-pink-500 transition">Logout ({{ user.username }})</a> <!-- Changed from hover:text-purple-600 -->
+            <a href="{% url 'service_list' %}" class="text-gray-700 hover:text-align-500">Services</a>
+            <a href="{% url 'my_bookings' %}" class="text-gray-700 hover:text-pink-500 transition">My Bookings</a>
+            <a href="{% url 'user_logout' %}" class="text-gray-700 hover:text-pink-500 transition">Logout ({{ user.username }})</a>
         </nav>
     </header>
 
     <section class="w-full max-w-7xl mx-auto py-16 px-8 text-center">
-        <h2 class="text-3xl font-bold text-pink-400 mb-8">Review Your Booking</h2> <!-- Changed from text-purple-800 -->
+        <h2 class="text-3xl font-bold text-pink-400 mb-8">Review Your Booking</h2>
         <div class="bg-white rounded-xl p-6 shadow-md max-w-md mx-auto">
-            <h3 class="text-xl font-semibold text-gray-800 mb-2">{{ service.name }}</h3>
+            <h3 class="text-xl font-semibold text-gray-800 mb-2">{{ service.name }} - {{ service_type.type_name }}</h3>
             <p class="text-sm text-gray-600">Date: {{ date }}</p>
             <p class="text-sm text-gray-600">Time: {{ time_display }}</p>
-            <p class="text-sm text-gray-600">Price: Tsh{{ service.price }}</p>
-            <!-- Debug Output -->
-            <p class="text-sm text-gray-600">Appointment ID : {{ appointment_id }}</p>
+            <p class="text-sm text-gray-600">Price: TSh {{ service_type.price }}</p>
+            <p class="text-sm text-gray-600">Appointment ID: {{ appointment_id }}</p>
             <form method="post" action="{% url 'process_payment' %}" class="mt-4">
                 {% csrf_token %}
                 <input type="hidden" name="service_id" value="{{ service.id }}">
-                <input type="hidden" name="date" value="{{ date }}">
+                <input type="hidden" name="service_type_id" value="{{ service_type.id }}">
+                <input type="hidden" name="date" value="{{ date|date:'Y-m-d' }}">
                 <input type="hidden" name="time" value="{{ time }}">
                 <input type="hidden" name="appointment_id" value="{{ appointment_id }}">
                 <button type="submit" class="confirm-btn">Proceed to Payment</button>
@@ -66,3 +65,5 @@
     </section>
 </body>
 </html>
+
+

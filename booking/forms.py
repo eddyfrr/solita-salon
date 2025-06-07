@@ -1,24 +1,27 @@
 from django import forms
+from .models import Service, ServiceType
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from datetime import datetime
 
 class AppointmentForm(forms.Form):
     date = forms.DateField(widget=forms.DateInput(attrs={'type': 'text', 'id': 'id_date'}))
-    time = forms.CharField(widget=forms.TextInput(attrs={'type': 'text', 'id': 'id_time'}))
+    time = forms.TimeField(widget=forms.TextInput(attrs={'type': 'text', 'id': 'id_time'}), input_formats=['%I:%M %p', '%H:%M'])
+    service = forms.ModelChoiceField(queryset=Service.objects.all(), widget=forms.HiddenInput(), required=True)
+    service_type = forms.ModelChoiceField(queryset=ServiceType.objects.none(), label="Type", required=True)
 
     def clean_time(self):
-        time_str = self.cleaned_data.get('time')
-        try:
-            # Handle AM/PM format (e.g., "12:00 PM")
-            if 'AM' in time_str or 'PM' in time_str:
-                time_obj = datetime.strptime(time_str, '%I:%M %p').time()
-            else:
-                # Handle 24-hour format (e.g., "14:30")
-                time_obj = datetime.strptime(time_str, '%H:%M').time()
+        time_obj = self.cleaned_data.get('time')
+        if time_obj:
             return time_obj
-        except ValueError:
-            raise forms.ValidationError('Invalid time format. Please use HH:MM AM/PM (e.g., 2:30 PM).')
+        raise forms.ValidationError('Invalid time format. Please use HH:MM AM/PM (e.g., 2:30 PM) or HH:MM (e.g., 14:30).')
+
+    def __init__(self, *args, **kwargs):
+        service_id = kwargs.pop('service_id', None)
+        super().__init__(*args, **kwargs)
+        if service_id:
+            self.fields['service_type'].queryset = ServiceType.objects.filter(service_id=service_id)
+            self.fields['service'].initial = service_id
 
 class RegisterForm(UserCreationForm):
     email = forms.EmailField(required=True)

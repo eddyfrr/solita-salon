@@ -2,23 +2,33 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Redirecting...</title>
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            overflow-x: hidden;
-        }
-    </style>
+    <script>
+        window.onload = function() {
+            var form = document.createElement('form');
+            form.method = 'POST';
+            form.action = '{% url 'review_booking' %}';
+            var fields = {
+                'service_id': '{{ service_id }}',
+                'service_type_id': '{{ service_type_id }}',
+                'date': '{{ date }}',
+                'time': '{{ time }}',
+                'csrfmiddlewaretoken': '{{ csrf_token }}'
+            };
+            for (var key in fields) {
+                var input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = key;
+                input.value = fields[key];
+                form.appendChild(input);
+            }
+            document.body.appendChild(form);
+            form.submit();
+        };
+    </script>
 </head>
-<body onload="document.forms['redirectForm'].submit()">
-    <form id="redirectForm" method="post" action="{% url 'review_booking' %}">
-        {% csrf_token %}
-        <input type="hidden" name="service_id" value="{{ service_id }}">
-        <input type="hidden" name="date" value="{{ date }}">
-        <input type="hidden" name="time" value="{{ time }}">
-    </form>
+<body>
+    <p>Redirecting to review your booking...</p>
 </body>
 </html>

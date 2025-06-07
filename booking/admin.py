@@ -1,14 +1,19 @@
 from django.contrib import admin
-from .models import Service, Appointment
+from .models import Service, ServiceType, Appointment
 
-# Register your models here.
+class ServiceTypeInline(admin.TabularInline):
+    model = ServiceType
+    extra = 1
+
+class ServiceAdmin(admin.ModelAdmin):
+    inlines = [ServiceTypeInline]
+    list_display = ['name']
 
 class AppointmentAdmin(admin.ModelAdmin):
-    list_display = ('user', 'service', 'date', 'time', 'created_at')
-    list_filter = ('date', 'service')
+    list_display = ('user', 'service', 'service_type', 'date', 'time', 'price', 'is_paid', 'created_at')
+    list_filter = ('date', 'service', 'is_paid')
     search_fields = ('user__username', 'service__name')
-    fields = ('name', 'description', 'price', 'image')
 
-admin.site.register(Service)
+admin.site.register(Service, ServiceAdmin)
+admin.site.register(ServiceType)
 admin.site.register(Appointment, AppointmentAdmin)
-
