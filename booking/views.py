@@ -166,7 +166,7 @@ def process_payment(request):
             payload = {
                 "totalPrice": str(service_type.price),
                 "orderReference": f"SOLITA{appointment.id}",
-                "orderCurrency": "TZS",
+                "orderCurrency": "USD",
                 "customerName": request.user.get_full_name() or request.user.username,
                 "customerEmail": request.user.email or "default@example.com",
                 "customerPhone": "255745636924",
