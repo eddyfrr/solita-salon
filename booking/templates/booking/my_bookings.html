@@ -35,7 +35,7 @@
                         <h3 class="text-xl font-semibold text-gray-800 mb-2">{{ appointment.service.name }} - {{ appointment.service_type.type_name }}</h3>
                         <p class="text-sm text-gray-600">Date: {{ appointment.date|date:"F d, Y" }}</p>
                         <p class="text-sm text-gray-600">Time: {{ appointment.time|time:"h:i A" }}</p>
-                        <p class="text-sm text-gray-600">Price: $ {{ appointment.price }}</p>
+                        <p class="text-sm text-gray-600">Price: ${{ appointment.price }}</p>
                     </div>
                 {% endfor %}
             </div>
