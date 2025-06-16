@@ -35,7 +35,7 @@
             {% endif %}
             <ul class="text-sm text-gray-600 space-y-2 mb-6">
                 <li>Service: <span class="italic text-gray-500">{{ service.name }} - {{ service_type.type_name }}</span></li>
-                <li>Price: <span class="italic text-gray-500">USD {{ service_type.price }}</span></li>
+                <li>Price: <span class="italic text-gray-500">${{ service_type.price }}</span></li>
                 <li>Date: <span class="italic text-gray-500">{{ date|date:"F d, Y" }}</span></li>
                 <li>Time: <span class="italic text-gray-500">{{ time_display }}</span></li>
             </ul>

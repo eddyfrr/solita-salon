@@ -159,7 +159,7 @@
                 <h4 class="text-sm font-medium text-gray-700 mt-2">Types:</h4>
                 <ul class="text-sm text-gray-600">
                     {% for type in service.types.all %}
-                    <li>{{ type.type_name }}: USD {{ type.price }}</li>
+                    <li>{{ type.type_name }}: $ {{ type.price }}</li>
                     {% endfor %}
                 </ul>
                 <form method="post" action="{% url 'book_appointment' %}" class="mt-4">

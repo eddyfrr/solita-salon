@@ -22,7 +22,7 @@ class ServiceType(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2)
     
     def __str__(self):
-        return f"{self.service.name} - {self.type_name} (USD {self.price})"
+        return f"{self.service.name} - {self.type_name} ($ {self.price})"
 
 class Appointment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
