@@ -202,11 +202,11 @@
             enableTime: false,
             dateFormat: "Y-m-d",
             minDate: "today",
-            disable: [
-                function(date) {
-                    return date.getDay() === 1; // Disable Monday
-                }
-            ],
+            //disable: [
+            //    function(date) {
+            //        return date.getDay() === 1; // Disable Monday
+            //    }
+            //],
             onChange: function(selectedDates, dateStr, instance) {
                 document.querySelector('#id_date').value = dateStr;
             }
