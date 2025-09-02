@@ -17,56 +17,158 @@
         }
     </style>
 </head>
-<body class="bg-purple-50 text-gray-800 font-[Inter]">
+<body class="bg-pink-50 text-gray-800 font-[Inter]">
     <div class="min-h-screen flex items-center justify-center py-12 px-4 w-full">
         <div class="bg-white p-8 rounded-lg shadow-lg max-w-md w-full">
             <!-- Registration Form -->
-            <h2 class="text-3xl font-bold text-purple-800 mb-6 text-center">Register with Solita Beauty Bar</h2>
+            <h2 class="text-3xl font-bold text-pink-400 mb-6 text-center">Register with Solita Beauty Bar</h2>
+            
+            <!-- Requirements Info Box -->
+            <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+                <div class="flex items-center mb-2">
+                    <svg class="w-5 h-5 text-blue-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
+                    </svg>
+                    <h4 class="text-sm font-semibold text-blue-800">Registration Requirements</h4>
+                </div>
+                <ul class="text-xs text-blue-700 space-y-1">
+                    <li>• Must use a Gmail address (@gmail.com)</li>
+                    <li>• Password must be at least 8 characters</li>
+                    <li>• Password must contain letters AND numbers</li>
+                    <li>• Avoid common passwords (password123, etc.)</li>
+                    <li>• Password should not match your username/email</li>
+                </ul>
+            </div>
             <form method="post" action="{% url 'user_register' %}">
                 {% csrf_token %}
                 <div class="mb-4">
                     <label for="id_username" class="block text-gray-700 font-medium mb-2">Username</label>
-                    <input type="text" id="id_username" name="username" value="{{ form.username.value|default_if_none:'' }}" class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600" required>
+                    <input type="text" id="id_username" name="username" value="{{ form.username.value|default_if_none:'' }}" 
+                           class="w-full p-3 border {% if form.username.errors %}border-red-500{% else %}border-gray-300{% endif %} rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-400" required>
                     {% if form.username.errors %}
-                        <p class="text-red-600 text-sm mt-1">{{ form.username.errors }}</p>
+                        <div class="bg-red-50 border border-red-200 rounded p-2 mt-2">
+                            <p class="text-red-600 text-sm">⚠️ {{ form.username.errors.0 }}</p>
+                        </div>
                     {% endif %}
                 </div>
+                
                 <div class="mb-4">
-                    <label for="id_email" class="block text-gray-700 font-medium mb-2">Email</label>
-                    <p class="text-sm text-gray-600 mb-1">Please use a Gmail address (e.g., your-email@gmail.com).</p>
-                    <input type="email" id="id_email" name="email" value="{{ form.email.value|default_if_none:'' }}" class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600" required>
+                    <label for="id_email" class="block text-gray-700 font-medium mb-2">Email *</label>
+                    <div class="relative">
+                        <input type="email" id="id_email" name="email" value="{{ form.email.value|default_if_none:'' }}" 
+                               class="w-full p-3 border {% if form.email.errors %}border-red-500{% else %}border-gray-300{% endif %} rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-400" 
+                               placeholder="your-email@gmail.com" required>
+                        <div class="absolute inset-y-0 right-0 pr-3 flex items-center">
+                            <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207"></path>
+                            </svg>
+                        </div>
+                    </div>
                     {% if form.email.errors %}
-                        <p class="text-red-600 text-sm mt-1">{{ form.email.errors }}</p>
+                        <div class="bg-red-50 border border-red-200 rounded p-2 mt-2">
+                            <p class="text-red-600 text-sm">⚠️ {{ form.email.errors.0 }}</p>
+                        </div>
+                    {% else %}
+                        <p class="text-xs text-gray-500 mt-1">Only Gmail addresses are accepted</p>
                     {% endif %}
                 </div>
+                
                 <div class="mb-4">
-                    <label for="id_password1" class="block text-gray-700 font-medium mb-2">Password</label>
-                    <input type="password" id="id_password1" name="password1" class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600" required>
+                    <label for="id_password1" class="block text-gray-700 font-medium mb-2">Password *</label>
+                    <div class="relative">
+                        <input type="password" id="id_password1" name="password1" 
+                               class="w-full p-3 border {% if form.password1.errors %}border-red-500{% else %}border-gray-300{% endif %} rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-400" required>
+                        <div class="absolute inset-y-0 right-0 pr-3 flex items-center">
+                            <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                            </svg>
+                        </div>
+                    </div>
                     {% if form.password1.errors %}
-                        <p class="text-red-600 text-sm mt-1">{{ form.password1.errors }}</p>
+                        <div class="bg-red-50 border border-red-200 rounded p-2 mt-2">
+                            <p class="text-red-600 text-sm">⚠️ {{ form.password1.errors.0 }}</p>
+                        </div>
                     {% endif %}
-                    <p class="text-sm text-gray-600 mt-1">Password must:</p>
-                    <ul class="text-sm text-gray-600 list-disc list-inside">
-                        <li>Be at least 8 characters long</li>
-                        <li>Contain at least one letter and one number</li>
-                        <li>Not be too common (e.g., "password123")</li>
-                        <li>Not be too similar to your username or email</li>
-                    </ul>
                 </div>
+                
                 <div class="mb-6">
-                    <label for="id_password2" class="block text-gray-700 font-medium mb-2">Confirm Password</label>
-                    <input type="password" id="id_password2" name="password2" class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600" required>
+                    <label for="id_password2" class="block text-gray-700 font-medium mb-2">Confirm Password *</label>
+                    <div class="relative">
+                        <input type="password" id="id_password2" name="password2" 
+                               class="w-full p-3 border {% if form.password2.errors %}border-red-500{% else %}border-gray-300{% endif %} rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-400" required>
+                        <div class="absolute inset-y-0 right-0 pr-3 flex items-center">
+                            <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                    </div>
                     {% if form.password2.errors %}
-                        <p class="text-red-600 text-sm mt-1">{{ form.password2.errors }}</p>
+                        <div class="bg-red-50 border border-red-200 rounded p-2 mt-2">
+                            <p class="text-red-600 text-sm">⚠️ {{ form.password2.errors.0 }}</p>
+                        </div>
+                    {% else %}
+                        <p class="text-xs text-gray-500 mt-1">Must match the password above</p>
                     {% endif %}
-                    <p class="text-sm text-gray-600 mt-1">Enter the same password as above.</p>
                 </div>
-                <button type="submit" class="w-full bg-purple-600 text-white py-3 rounded-lg font-semibold hover:bg-purple-700 transition">Register</button>
+                <button type="submit" class="w-full bg-pink-400 text-white py-3 rounded-lg font-semibold hover:bg-pink-500 transition">Register</button>
             </form>
             <p class="mt-4 text-center text-sm text-gray-600">
-                Already have an account? <a href="{% url 'user_login' %}" class="text-purple-600 hover:underline">Log in here</a>.
+                Already have an account? <a href="{% url 'user_login' %}" class="text-pink-400 hover:underline">Log in here</a>.
             </p>
         </div>
     </div>
+    
+    <script>
+        // Real-time validation feedback
+        document.addEventListener('DOMContentLoaded', function() {
+            const emailInput = document.getElementById('id_email');
+            const password1Input = document.getElementById('id_password1');
+            const password2Input = document.getElementById('id_password2');
+            
+            // Email validation
+            emailInput.addEventListener('blur', function() {
+                const email = this.value;
+                if (email && !email.toLowerCase().endsWith('@gmail.com')) {
+                    this.classList.add('border-red-500');
+                    this.classList.remove('border-gray-300');
+                } else {
+                    this.classList.remove('border-red-500');
+                    this.classList.add('border-gray-300');
+                }
+            });
+            
+            // Password strength indicator
+            password1Input.addEventListener('input', function() {
+                const password = this.value;
+                let isValid = true;
+                
+                if (password.length < 8) isValid = false;
+                if (!/[A-Za-z]/.test(password)) isValid = false;
+                if (!/[0-9]/.test(password)) isValid = false;
+                
+                if (isValid) {
+                    this.classList.remove('border-red-500');
+                    this.classList.add('border-green-500');
+                } else {
+                    this.classList.remove('border-green-500');
+                    this.classList.add('border-red-500');
+                }
+            });
+            
+            // Password confirmation
+            password2Input.addEventListener('input', function() {
+                const password1 = password1Input.value;
+                const password2 = this.value;
+                
+                if (password2 && password1 === password2) {
+                    this.classList.remove('border-red-500');
+                    this.classList.add('border-green-500');
+                } else if (password2) {
+                    this.classList.remove('border-green-500');
+                    this.classList.add('border-red-500');
+                }
+            });
+        });
+    </script>
 </body>
 </html>

@@ -1,4 +1,5 @@
 {% load static %}
+{% load humanize %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -32,10 +33,18 @@
             <div class="grid md:grid-cols-2 gap-6">
                 {% for appointment in appointments %}
                     <div class="bg-white rounded-xl p-6 shadow-md">
-                        <h3 class="text-xl font-semibold text-gray-800 mb-2">{{ appointment.service.name }} - {{ appointment.service_type.type_name }}</h3>
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="text-xl font-semibold text-gray-800">{{ appointment.service.name }} - {{ appointment.service_type.type_name }}</h3>
+                            {% if appointment.is_paid %}
+                                <span class="bg-green-100 text-green-800 text-xs font-medium px-2 py-1 rounded-full">Paid</span>
+                            {% else %}
+                                <span class="bg-yellow-100 text-yellow-800 text-xs font-medium px-2 py-1 rounded-full">Pending Payment</span>
+                            {% endif %}
+                        </div>
                         <p class="text-sm text-gray-600">Date: {{ appointment.date|date:"F d, Y" }}</p>
                         <p class="text-sm text-gray-600">Time: {{ appointment.time|time:"h:i A" }}</p>
-                        <p class="text-sm text-gray-600">Price: ${{ appointment.price }}</p>
+                        <p class="text-sm text-gray-600">Price: TZS {{ appointment.price|floatformat:0|intcomma }}</p>
+                        <p class="text-xs text-gray-500 mt-2">Booking ID: SOLITA{{ appointment.id }}</p>
                     </div>
                 {% endfor %}
             </div>

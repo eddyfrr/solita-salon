@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.humanize',
     'booking',
     'whitenoise.runserver_nostatic',
     'cloudinary_storage',
@@ -110,7 +111,6 @@ DATABASES = {
           conn_max_age=600
       )
   }
-
 
 
 # Password validation
@@ -174,22 +174,16 @@ LOGIN_URL = ' /login/'
 LOGIN_URL = '/login/'
 
 
-# Email Configuration (Elastic Email SMTP)
-EMAIL_BACKEND = 'anymail.backends.elasticemail.EmailBackend'
-ANYMAIL = {
-    'ELASTICEMAIL_API_KEY' : config('ELASTICEMAIL_API_KEY', default=''),
-}
-EMAIL_HOST = 'smtp.elasticmail.com'
+# Email Configuration (Gmail SMTP)
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'edmundrwegasira@gmail.com'  # Replace with your Gmail address
-EMAIL_HOST_PASSWORD = 'ldnp fude ngcu jgrk'  # Replace with your Gmail app password
-DEFAULT_FROM_EMAIL = 'Solita Salon <edmundrwegasira@gmail.com>'  # Replace with your Gmail address
+EMAIL_HOST_USER = 'edmundrwegasira@gmail.com'
+EMAIL_HOST_PASSWORD = 'ldnp fude ngcu jgrk'  # Gmail app password
+DEFAULT_FROM_EMAIL = 'Solita Salon <edmundrwegasira@gmail.com>'
+SERVER_EMAIL = DEFAULT_FROM_EMAIL
 
 
-# ClickPesa Configuration
-CLICKPESA_CLIENT_ID = 'IDURoLVb5VfCjgYHojoGh3VlFs459jxV'
-CLICKPESA_API_KEY = 'SK7BLcOOzyMcBA68rDKcwbIHREfxLViknXjyRVdBXw'  # Replace with the new key from ClickPesa
-CLICKPESA_API_URL = 'https://api.clickpesa.com'
-CLICKPESA_SUCCESS_URL = "https://solitabeautybar.up.railway.app/success/"
-CLICKPESA_FAILURE_URL = "https://solitabeautybar.up.railway.app/"  # Redirect to homepage on failure, or define a failure page
+# WhatsApp Business Configuration
+WHATSAPP_BUSINESS_NUMBER = "255739527827"  # Update with actual business WhatsApp number

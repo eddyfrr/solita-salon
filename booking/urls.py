@@ -8,8 +8,8 @@ urlpatterns = [
     path('book_appointment/', views.book_appointment, name='book_appointment'),
     path('review_booking/', views.review_booking, name='review_booking'),
     path('process_payment/', views.process_payment, name='process_payment'),
-    path('payment_callback/', views.payment_callback, name='payment_callback'),  # Added
-    path('confirm_payment/', views.confirm_payment, name='confirm_payment'),
+    # payment_callback removed - using WhatsApp for payment coordination
+    # confirm_payment removed - using WhatsApp flow
     path('success/', views.success_page, name='success_page'),
     path('my_bookings/', views.my_bookings, name='my_bookings'),
     path('login/', views.user_login, name='user_login'),
