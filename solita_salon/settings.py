@@ -110,7 +110,7 @@ DATABASES = {
           default=config('DATABASE_URL'),  # Rely on the env variable, no fallback
           conn_max_age=600
       )
-
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
