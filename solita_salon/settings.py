@@ -110,7 +110,6 @@ DATABASES = {
           default=config('DATABASE_URL'),  # Rely on the env variable, no fallback
           conn_max_age=600
       )
-  }
 
 
 # Password validation
@@ -186,4 +185,4 @@ SERVER_EMAIL = DEFAULT_FROM_EMAIL
 
 
 # WhatsApp Business Configuration
-WHATSAPP_BUSINESS_NUMBER = "255766363233"  # Update with actual business WhatsApp number
+WHATSAPP_BUSINESS_NUMBER = "255716660317"  # Update with actual business WhatsApp number
