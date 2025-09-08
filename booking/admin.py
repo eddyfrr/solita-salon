@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Service, ServiceType, Appointment
+from .models import Service, ServiceType, Appointment, ClientPhoto
 
 class ServiceTypeInline(admin.TabularInline):
     model = ServiceType
@@ -26,6 +26,24 @@ class AppointmentAdmin(admin.ModelAdmin):
         self.message_user(request, f'{updated} appointments marked as unpaid.')
     mark_as_unpaid.short_description = "Mark selected appointments as unpaid"
 
+class ClientPhotoAdmin(admin.ModelAdmin):
+    list_display = ('__str__', 'caption', 'is_active', 'created_at')
+    list_filter = ('is_active', 'created_at')
+    search_fields = ('caption',)
+    list_editable = ('is_active',)
+    actions = ['activate_photos', 'deactivate_photos']
+    
+    def activate_photos(self, request, queryset):
+        updated = queryset.update(is_active=True)
+        self.message_user(request, f'{updated} photos activated.')
+    activate_photos.short_description = "Activate selected photos"
+    
+    def deactivate_photos(self, request, queryset):
+        updated = queryset.update(is_active=False)
+        self.message_user(request, f'{updated} photos deactivated.')
+    deactivate_photos.short_description = "Deactivate selected photos"
+
 admin.site.register(Service, ServiceAdmin)
 admin.site.register(ServiceType)
 admin.site.register(Appointment, AppointmentAdmin)
+admin.site.register(ClientPhoto, ClientPhotoAdmin)

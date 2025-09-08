@@ -38,6 +38,18 @@ class Appointment(models.Model):
     def __str__(self):
         return f"{self.user.username} - {self.service.name} on {self.date} at {self.time}"
 
+class ClientPhoto(models.Model):
+    image = CloudinaryField('image')
+    caption = models.CharField(max_length=200, blank=True, null=True, help_text="Optional caption for the photo")
+    created_at = models.DateTimeField(auto_now_add=True)
+    is_active = models.BooleanField(default=True, help_text="Uncheck to hide from gallery")
+    
+    class Meta:
+        ordering = ['-created_at']
+    
+    def __str__(self):
+        return f"Client Photo - {self.created_at.strftime('%Y-%m-%d')}"
+
 @receiver(pre_save, sender=Service)
 def log_image_upload(sender, instance, **kwargs):
     if instance.image:

@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
-from .models import Service, ServiceType, Appointment
+from .models import Service, ServiceType, Appointment, ClientPhoto
 from .forms import AppointmentForm, RegisterForm
 from datetime import datetime
 from django.conf import settings
@@ -16,8 +16,13 @@ import urllib.parse
 
 def service_list(request):
     services = Service.objects.all()
+    client_photos = ClientPhoto.objects.filter(is_active=True)
     print(f"[service_list] Services: {list(services)}")
-    return render(request, 'booking/service_list.html', {'services': services})
+    print(f"[service_list] Client Photos: {list(client_photos)}")
+    return render(request, 'booking/service_list.html', {
+        'services': services,
+        'client_photos': client_photos
+    })
 
 @login_required
 def book_appointment(request):
