@@ -110,6 +110,11 @@
 		transform: scale(1.05) !important;
 	}
 	
+           /* Hide the pink mobile menu completely */
+           .simple-mobile-menu {
+               display: none !important;
+           }
+           
            /* Gallery Hover Effects */
            .gallery-item:hover {
                transform: translateY(-10px) !important;
@@ -196,6 +201,198 @@
                .gallery-caption {
                    padding: 1.5rem 1rem 1rem !important;
                    font-size: 0.9rem !important;
+               }
+           }
+           
+           /* Mobile Navigation Fixes */
+           @media (max-width: 768px) {
+               /* Header Navigation */
+               .ast-builder-menu,
+               .main-header-menu {
+                   display: none !important;
+               }
+               
+               /* Show mobile menu dropdown when needed */
+               .mobile-menu-dropdown {
+                   display: block !important;
+               }
+               
+               /* Ensure mobile menu is visible */
+               .ast-mobile-menu-buttons {
+                   display: block !important;
+                   position: relative !important;
+                   z-index: 1001 !important;
+               }
+               
+               /* Mobile header adjustments */
+               .ast-header {
+                   padding: 1rem !important;
+                   position: relative !important;
+               }
+               
+               /* Mobile logo adjustments */
+               .ast-site-identity {
+                   flex: 1 !important;
+               }
+               
+               .ast-site-identity .site-title {
+                   font-size: 1.5rem !important;
+               }
+               
+               /* Show mobile menu button */
+               .ast-mobile-menu-buttons {
+                   display: block !important;
+                   position: relative !important;
+               }
+               
+               /* Mobile menu button wrapper */
+               .ast-mobile-menu-buttons .ast-button-wrap {
+                   position: relative !important;
+               }
+               
+               /* Mobile menu styles */
+               .ast-mobile-menu-buttons .ast-button-wrap {
+                   display: flex !important;
+                   align-items: center !important;
+                   justify-content: center !important;
+               }
+               
+               /* Mobile menu toggle */
+               .ast-mobile-menu-buttons .menu-toggle {
+                   background: transparent !important;
+                   border: 2px solid #f5d0e6 !important;
+                   border-radius: 8px !important;
+                   padding: 8px 12px !important;
+                   color: #f5d0e6 !important;
+                   font-size: 14px !important;
+                   font-weight: 600 !important;
+               }
+               
+               /* Mobile menu dropdown */
+               .ast-mobile-menu-buttons .menu-toggle:after {
+                   content: "☰" !important;
+                   margin-left: 8px !important;
+                   font-size: 16px !important;
+               }
+               
+               /* Mobile menu when open */
+               .ast-mobile-menu-buttons .menu-toggle[aria-expanded="true"]:after {
+                   content: "✕" !important;
+               }
+               
+               /* Mobile menu items */
+               .ast-mobile-menu-buttons .menu-items {
+                   position: absolute !important;
+                   top: 100% !important;
+                   left: 0 !important;
+                   right: 0 !important;
+                   background: rgba(0, 0, 0, 0.95) !important;
+                   backdrop-filter: blur(10px) !important;
+                   border-radius: 0 0 12px 12px !important;
+                   padding: 1rem !important;
+                   z-index: 1000 !important;
+                   display: none !important;
+                   margin-top: 8px !important;
+               }
+               
+               .ast-mobile-menu-buttons .menu-items.show {
+                   display: block !important;
+               }
+               
+               .ast-mobile-menu-buttons .menu-items a {
+                   display: block !important;
+                   color: white !important;
+                   padding: 12px 16px !important;
+                   text-decoration: none !important;
+                   border-radius: 8px !important;
+                   margin: 4px 0 !important;
+                   font-weight: 500 !important;
+                   transition: background 0.3s ease !important;
+                   font-size: 16px !important;
+                   text-align: center !important;
+               }
+               
+               .ast-mobile-menu-buttons .menu-items a:hover {
+                   background: rgba(245, 208, 230, 0.2) !important;
+               }
+               
+               /* Ensure menu items are visible when shown */
+               .ast-mobile-menu-buttons .menu-items.show {
+                   display: block !important;
+                   visibility: visible !important;
+                   opacity: 1 !important;
+               }
+               
+               /* Hero section mobile fixes */
+               .elementor-section-hero {
+                   min-height: 100vh !important;
+                   padding: 2rem 1rem !important;
+               }
+               
+               .elementor-hero-content {
+                   text-align: center !important;
+                   padding: 1rem !important;
+               }
+               
+               .elementor-hero-content h1 {
+                   font-size: 2rem !important;
+                   line-height: 1.2 !important;
+                   margin-bottom: 1rem !important;
+               }
+               
+               .elementor-hero-content p {
+                   font-size: 1rem !important;
+                   line-height: 1.4 !important;
+                   margin-bottom: 2rem !important;
+               }
+               
+               /* Mobile button fixes */
+               .elementor-button {
+                   width: 100% !important;
+                   max-width: 280px !important;
+                   margin: 0 auto !important;
+                   padding: 16px 24px !important;
+                   font-size: 16px !important;
+               }
+               
+               /* Mobile text accessibility */
+               .elementor-widget-text-editor p,
+               .elementor-widget-heading h1,
+               .elementor-widget-heading h2,
+               .elementor-widget-heading h3 {
+                   font-size: 16px !important;
+                   line-height: 1.5 !important;
+                   color: white !important;
+               }
+               
+               /* Mobile container padding */
+               .elementor-container {
+                   padding: 0 1rem !important;
+               }
+               
+               /* Mobile section padding */
+               .elementor-section {
+                   padding: 2rem 0 !important;
+               }
+           }
+           
+           /* Extra small mobile devices */
+           @media (max-width: 480px) {
+               .elementor-hero-content h1 {
+                   font-size: 1.75rem !important;
+               }
+               
+               .elementor-hero-content p {
+                   font-size: 0.9rem !important;
+               }
+               
+               .elementor-button {
+                   padding: 14px 20px !important;
+                   font-size: 14px !important;
+               }
+               
+               .elementor-container {
+                   padding: 0 0.5rem !important;
                }
            }
 </style>
@@ -1253,11 +1450,160 @@ var elementorFrontendConfig = {"environmentMode":{"edit":false,"wpPreview":false
 						return false;
 					}
 					
-					// Run multiple times to catch dynamic content
-					setTimeout(setupBookNowScrolling, 500);
-					setTimeout(setupBookNowScrolling, 1500);
-					setTimeout(setupBookNowScrolling, 3000);
-        });
+               // Run multiple times to catch dynamic content
+               setTimeout(setupBookNowScrolling, 500);
+               setTimeout(setupBookNowScrolling, 1500);
+               setTimeout(setupBookNowScrolling, 3000);
+               
+               // Fix existing golden hamburger menu
+               function fixGoldenHamburgerMenu() {
+                   console.log('Fixing golden hamburger menu...');
+                   
+                   // Find the existing golden hamburger button
+                   const hamburgerButtons = document.querySelectorAll('[class*="hamburger"], [class*="menu-toggle"], [class*="menu-button"]');
+                   let hamburgerBtn = null;
+                   
+                   // Look for common hamburger button selectors
+                   const selectors = [
+                       '.ast-mobile-menu-buttons .menu-toggle',
+                       '.menu-toggle',
+                       '.hamburger',
+                       '.menu-button',
+                       '[aria-label*="menu"]',
+                       '[aria-label*="Menu"]',
+                       'button[class*="menu"]',
+                       'button[class*="hamburger"]'
+                   ];
+                   
+                   for (let selector of selectors) {
+                       hamburgerBtn = document.querySelector(selector);
+                       if (hamburgerBtn) {
+                           console.log('Found hamburger button:', selector);
+                           break;
+                       }
+                   }
+                   
+                   if (!hamburgerBtn) {
+                       // Look for any button that might be a hamburger
+                       const allButtons = document.querySelectorAll('button');
+                       for (let btn of allButtons) {
+                           if (btn.textContent.includes('☰') || 
+                               btn.textContent.includes('Menu') || 
+                               btn.textContent.includes('MENU') ||
+                               btn.getAttribute('aria-label')?.toLowerCase().includes('menu')) {
+                               hamburgerBtn = btn;
+                               console.log('Found hamburger button by content');
+                               break;
+                           }
+                       }
+                   }
+                   
+                   if (hamburgerBtn) {
+                       console.log('Setting up hamburger menu functionality...');
+                       
+                       // Create mobile menu dropdown
+                       const existingDropdown = document.querySelector('.mobile-menu-dropdown');
+                       if (existingDropdown) {
+                           existingDropdown.remove();
+                       }
+                       
+                       const dropdownHTML = `
+                           <div class="mobile-menu-dropdown" style="
+                               position: absolute;
+                               top: 100%;
+                               right: 0;
+                               background: rgba(0,0,0,0.95);
+                               border-radius: 8px;
+                               padding: 1rem;
+                               min-width: 200px;
+                               display: none;
+                               margin-top: 8px;
+                               box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+                               z-index: 9999;
+                           ">
+                               <a href="#services" style="
+                                   display: block;
+                                   color: white;
+                                   padding: 12px 16px;
+                                   text-decoration: none;
+                                   border-radius: 6px;
+                                   margin: 4px 0;
+                                   font-weight: 500;
+                                   transition: background 0.3s;
+                               ">Services</a>
+                               <a href="{% url 'my_bookings' %}" style="
+                                   display: block;
+                                   color: white;
+                                   padding: 12px 16px;
+                                   text-decoration: none;
+                                   border-radius: 6px;
+                                   margin: 4px 0;
+                                   font-weight: 500;
+                                   transition: background 0.3s;
+                               ">My Bookings</a>
+                               <a href="{% url 'user_logout' %}" style="
+                                   display: block;
+                                   color: white;
+                                   padding: 12px 16px;
+                                   text-decoration: none;
+                                   border-radius: 6px;
+                                   margin: 4px 0;
+                                   font-weight: 500;
+                                   transition: background 0.3s;
+                               ">Logout</a>
+                           </div>
+                       `;
+                       
+                       // Make sure the button's parent is positioned relatively
+                       const buttonParent = hamburgerBtn.parentElement;
+                       if (buttonParent) {
+                           buttonParent.style.position = 'relative';
+                           buttonParent.insertAdjacentHTML('beforeend', dropdownHTML);
+                       }
+                       
+                       const dropdown = document.querySelector('.mobile-menu-dropdown');
+                       
+                       if (dropdown) {
+                           // Add click handler to hamburger button
+                           hamburgerBtn.addEventListener('click', function(e) {
+                               e.preventDefault();
+                               e.stopPropagation();
+                               
+                               const isVisible = dropdown.style.display === 'block';
+                               dropdown.style.display = isVisible ? 'none' : 'block';
+                               
+                               console.log('Hamburger menu toggled:', !isVisible);
+                           });
+                           
+                           // Close menu when clicking outside
+                           document.addEventListener('click', function(e) {
+                               if (!hamburgerBtn.contains(e.target) && !dropdown.contains(e.target)) {
+                                   dropdown.style.display = 'none';
+                               }
+                           });
+                           
+                           // Add hover effects to menu items
+                           const menuItems = dropdown.querySelectorAll('a');
+                           menuItems.forEach(item => {
+                               item.addEventListener('mouseenter', function() {
+                                   this.style.background = 'rgba(245, 208, 230, 0.2)';
+                               });
+                               item.addEventListener('mouseleave', function() {
+                                   this.style.background = 'transparent';
+                               });
+                           });
+                           
+                           console.log('Golden hamburger menu setup complete');
+                       }
+                   } else {
+                       console.log('No hamburger button found');
+                   }
+               }
+               
+               // Fix hamburger menu
+               setTimeout(fixGoldenHamburgerMenu, 500);
+               setTimeout(fixGoldenHamburgerMenu, 2000);
+           });
 			</script>
 				</body>
 </html>
