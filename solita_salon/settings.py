@@ -106,15 +106,11 @@ WSGI_APPLICATION = 'solita_salon.wsgi.application'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'solita_db',
-        'USER': 'solita_admin',
-        'PASSWORD': 'solita123',
-        'HOST': 'localhost',
-        'PORT': '5432',
-    }
-}
+      'default': dj_database_url.config(
+          default=config('DATABASE_URL'),  # Rely on the env variable, no fallback
+          conn_max_age=600
+      )
+  }
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
