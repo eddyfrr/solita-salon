@@ -33,7 +33,7 @@
 	.services-section-wrapper,
 	.elementor-element-dcc8b59,
 	.elementor-element-3d5eba5,
-	.services-container {
+        .services-container {
 		background-color: white !important;
 	}
 	
@@ -87,7 +87,7 @@
 	}
 	
 	/* Ensure book buttons are visible and styled properly */
-	.book-now-btn {
+        .book-now-btn {
 		display: inline-block !important;
 		visibility: visible !important;
 		opacity: 1 !important;
@@ -105,7 +105,7 @@
 		transition: all 0.3s !important;
 	}
 	
-	.book-now-btn:hover {
+        .book-now-btn:hover {
 		background: #e8b4d1 !important;
 		transform: scale(1.05) !important;
 	}
@@ -149,7 +149,7 @@
                }
            }
            
-           @media (max-width: 768px) {
+        @media (max-width: 768px) {
                .service-item {
                    flex-direction: column !important;
                    margin-bottom: 4rem !important;
@@ -163,8 +163,8 @@
                }
                .service-content {
                    padding: 2rem 1rem !important;
-               }
-               .services-container {
+            }
+            .services-container {
                    padding: 1rem !important;
                }
                
@@ -212,8 +212,13 @@
                    display: none !important;
                }
                
-               /* Show mobile menu dropdown when needed */
+               /* Hide mobile menu dropdown by default */
                .mobile-menu-dropdown {
+                   display: none !important;
+               }
+               
+               /* Show mobile menu dropdown only when active */
+               .mobile-menu-dropdown.show {
                    display: block !important;
                }
                
@@ -346,9 +351,42 @@
                    margin-bottom: 2rem !important;
                }
                
+               /* Fix hero text visibility - "LET US BRING OUT YOUR BEAUTY" */
+               .elementor-element-cc25706 {
+                   display: block !important;
+                   visibility: visible !important;
+                   opacity: 1 !important;
+               }
+               
+               .elementor-element-cc25706 .elementor-heading-title {
+                   color: #333 !important;
+                   font-size: 1.2rem !important;
+                   font-weight: 600 !important;
+                   text-transform: uppercase !important;
+                   letter-spacing: 1px !important;
+                   margin-bottom: 1rem !important;
+                   text-align: center !important;
+               }
+               
+               /* Fix main hero text */
+               .elementor-element-0b435e6 {
+                   display: block !important;
+                   visibility: visible !important;
+                   opacity: 1 !important;
+               }
+               
+               .elementor-element-0b435e6 .elementor-heading-title {
+                   color: #333 !important;
+                   font-size: 1.8rem !important;
+                   font-weight: 500 !important;
+                   line-height: 1.4 !important;
+                   text-align: center !important;
+                   margin-bottom: 2rem !important;
+               }
+               
                /* Mobile button fixes */
                .elementor-button {
-                   width: 100% !important;
+                width: 100% !important;
                    max-width: 280px !important;
                    margin: 0 auto !important;
                    padding: 16px 24px !important;
@@ -374,6 +412,395 @@
                .elementor-section {
                    padding: 2rem 0 !important;
                }
+               
+               /* Fix Our Core Services heading visibility - AGGRESSIVE */
+               .elementor-element-3d5eba5,
+               .elementor-element-3d5eba5 *,
+               .elementor-element-3d5eba5 .e-con-inner,
+               .elementor-element-3d5eba5 .elementor-widget-container,
+               .elementor-element-3d5eba5 .elementor-heading-title {
+                   display: block !important;
+                   visibility: visible !important;
+                   opacity: 1 !important;
+               }
+               
+               .elementor-element-3d5eba5 .elementor-heading-title {
+                   color: #333 !important;
+                   font-size: 2.5rem !important;
+                   font-weight: 600 !important;
+                   font-family: serif !important;
+                   text-align: center !important;
+                   margin-bottom: 3rem !important;
+                   padding: 2rem 0 !important;
+               }
+               
+               /* Force the parent container to be visible */
+               .elementor-element-dcc8b59 {
+                   display: block !important;
+                   visibility: visible !important;
+                   opacity: 1 !important;
+               }
+               
+               .elementor-element-dcc8b59 .e-con-inner {
+                   display: block !important;
+                   visibility: visible !important;
+                   opacity: 1 !important;
+               }
+               
+               /* Professional Mobile About Us Section */
+               .elementor-element-ab232db {
+                   background: white !important;
+                   padding: 3rem 2rem !important;
+                   margin: 2rem 0 !important;
+               }
+               
+               .elementor-element-ab232db .e-con-inner {
+                   background: white !important;
+                   padding: 0 !important;
+               }
+               
+               .elementor-element-9c4c613 .elementor-divider__text {
+                   color: #333 !important;
+                   font-size: 2.5rem !important;
+                   font-weight: 600 !important;
+                   font-family: serif !important;
+                   margin-bottom: 2rem !important;
+               }
+               
+               .elementor-element-196c0c2 .elementor-widget-text-editor {
+                   color: #333 !important;
+                   font-size: 1.1rem !important;
+                   line-height: 1.7 !important;
+                   text-align: center !important;
+                   max-width: 800px !important;
+                   margin: 0 auto !important;
+               }
+               
+               .elementor-element-196c0c2 .elementor-widget-text-editor p {
+                   margin-bottom: 1.5rem !important;
+                   color: #333 !important;
+               }
+               
+               /* Professional Mobile Why Choose Us Section */
+               .elementor-element-8e67fe1 {
+                   background: white !important;
+                   padding: 3rem 2rem !important;
+               }
+               
+               .elementor-element-8e67fe1 .elementor-widget-heading h2 {
+                   color: #333 !important;
+                   font-size: 2.5rem !important;
+                   font-weight: 600 !important;
+                   font-family: serif !important;
+                   text-align: center !important;
+                   margin-bottom: 3rem !important;
+               }
+               
+               .elementor-element-0ffc0cf {
+                   display: flex !important;
+                   flex-direction: column !important;
+                   gap: 2rem !important;
+                   background: white !important;
+                   padding: 0 !important;
+                   visibility: visible !important;
+                   opacity: 1 !important;
+               }
+               
+               /* Ensure the parent section is visible */
+               .elementor-element-0ffc0cf .e-con-inner {
+                   display: flex !important;
+                   flex-direction: column !important;
+                   gap: 2rem !important;
+                   background: white !important;
+                   padding: 0 !important;
+                   visibility: visible !important;
+                   opacity: 1 !important;
+               }
+               
+               /* Professional Card Styling - Desktop-like appearance */
+               .elementor-element-08df2f3,
+               .elementor-element-ba77415,
+               .elementor-element-6f5d8a3 {
+                   background: #333 !important;
+                   border-radius: 15px !important;
+                   padding: 2.5rem 2rem !important;
+                   margin-bottom: 1.5rem !important;
+                   box-shadow: 0 10px 30px rgba(0,0,0,0.1) !important;
+                   transition: transform 0.3s ease !important;
+                   width: 100% !important;
+                   display: block !important;
+                   visibility: visible !important;
+                   opacity: 1 !important;
+                   min-height: 200px !important;
+               }
+               
+               /* Middle card (Personalized Services) - white background like desktop */
+               .elementor-element-ba77415 {
+                   background: white !important;
+                   border: 2px solid #333 !important;
+               }
+               
+               /* Ensure all card containers are visible */
+               .elementor-element-08df2f3 .e-con-inner,
+               .elementor-element-ba77415 .e-con-inner,
+               .elementor-element-6f5d8a3 .e-con-inner {
+                   background: transparent !important;
+                   padding: 0 !important;
+                   display: block !important;
+                   visibility: visible !important;
+                   opacity: 1 !important;
+               }
+               
+               .elementor-element-08df2f3:hover,
+               .elementor-element-ba77415:hover,
+               .elementor-element-6f5d8a3:hover {
+                   transform: translateY(-5px) !important;
+               }
+               
+               /* Ensure widget containers are visible */
+               .elementor-element-08df2f3 .elementor-widget-container,
+               .elementor-element-ba77415 .elementor-widget-container,
+               .elementor-element-6f5d8a3 .elementor-widget-container {
+                   display: block !important;
+                   visibility: visible !important;
+                   opacity: 1 !important;
+               }
+               
+               /* Force text editor widgets to be visible - AGGRESSIVE */
+               .elementor-element-08df2f3 .elementor-widget-text-editor,
+               .elementor-element-ba77415 .elementor-widget-text-editor,
+               .elementor-element-6f5d8a3 .elementor-widget-text-editor,
+               .elementor-element-08df2f3 .elementor-widget-text-editor *,
+               .elementor-element-ba77415 .elementor-widget-text-editor *,
+               .elementor-element-6f5d8a3 .elementor-widget-text-editor * {
+                   display: block !important;
+                   visibility: visible !important;
+                   opacity: 1 !important;
+               }
+               
+               /* NUCLEAR OPTION for Personalized Services card */
+               .elementor-element-ba77415 .elementor-widget-text-editor p,
+               .elementor-element-ba77415 .elementor-widget-text-editor div,
+               .elementor-element-ba77415 .elementor-widget-text-editor span {
+                   display: block !important;
+                   visibility: visible !important;
+                   opacity: 1 !important;
+                   color: #333 !important;
+                   font-size: 1rem !important;
+                   line-height: 1.6 !important;
+                   margin: 0 !important;
+                   padding: 0 !important;
+               }
+               
+               /* Dark cards text (Expert Team & Premium Products) */
+               .elementor-element-08df2f3 .elementor-widget-heading h2,
+               .elementor-element-6f5d8a3 .elementor-widget-heading h2 {
+                   color: white !important;
+                   font-size: 1.8rem !important;
+                   font-weight: 600 !important;
+                   font-family: serif !important;
+                   margin-bottom: 1rem !important;
+                   text-align: left !important;
+               }
+               
+               .elementor-element-08df2f3 .elementor-widget-text-editor,
+               .elementor-element-6f5d8a3 .elementor-widget-text-editor {
+                   color: white !important;
+                   font-size: 1rem !important;
+                   line-height: 1.6 !important;
+                   text-align: left !important;
+               }
+               
+               /* White card text (Personalized Services) - AGGRESSIVE */
+               .elementor-element-ba77415 .elementor-widget-heading h2 {
+                   color: #333 !important;
+                   font-size: 1.8rem !important;
+                   font-weight: 600 !important;
+                   font-family: serif !important;
+                   margin-bottom: 1rem !important;
+                   text-align: left !important;
+               }
+               
+               .elementor-element-ba77415 .elementor-widget-text-editor,
+               .elementor-element-ba77415 .elementor-widget-text-editor *,
+               .elementor-element-ba77415 .elementor-widget-text-editor p,
+               .elementor-element-ba77415 .elementor-widget-text-editor div {
+                   color: #333 !important;
+                   font-size: 1rem !important;
+                   line-height: 1.6 !important;
+                   text-align: left !important;
+                   display: block !important;
+                   visibility: visible !important;
+                   opacity: 1 !important;
+                   margin-bottom: 0.5rem !important;
+               }
+               
+               /* Force the entire Personalized Services card to be visible */
+               .elementor-element-ba77415,
+               .elementor-element-ba77415 *,
+               .elementor-element-ba77415 .e-con-inner,
+               .elementor-element-ba77415 .elementor-widget-container {
+                   display: block !important;
+                   visibility: visible !important;
+                   opacity: 1 !important;
+               }
+               
+               /* SEXY MOBILE REDESIGN - DESKTOP QUALITY */
+               
+               /* Why Choose Us Section - SEXY SPACING */
+               .elementor-element-8e67fe1 {
+                   background: white !important;
+                   padding: 5rem 2rem !important;
+                   margin: 0 !important;
+               }
+               
+               .elementor-element-8e67fe1 .elementor-widget-heading h2 {
+                   color: #333 !important;
+                   font-size: 3.5rem !important;
+                   font-weight: 700 !important;
+                   font-family: serif !important;
+                   text-align: center !important;
+                   margin-bottom: 5rem !important;
+                   letter-spacing: 2px !important;
+                   text-transform: uppercase !important;
+               }
+               
+               /* SEXY CARDS CONTAINER */
+               .elementor-element-0ffc0cf {
+                   display: flex !important;
+                   flex-direction: column !important;
+                   gap: 3rem !important;
+                   background: white !important;
+                   padding: 0 !important;
+                   max-width: 100% !important;
+                   margin: 0 !important;
+               }
+               
+               .elementor-element-0ffc0cf .e-con-inner {
+                   display: flex !important;
+                   flex-direction: column !important;
+                   gap: 3rem !important;
+                   background: white !important;
+                   padding: 0 !important;
+               }
+               
+               /* AESTHETIC BLACK CARDS - EXPERT TEAM & PREMIUM PRODUCTS */
+               .elementor-element-08df2f3,
+               .elementor-element-6f5d8a3 {
+                   background: linear-gradient(135deg, #000 0%, #1a1a1a 100%) !important;
+                   border-radius: 30px !important;
+                   padding: 4.5rem 3.5rem !important;
+                   margin: 0 !important;
+                   box-shadow: 0 25px 80px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.1) !important;
+                   transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1) !important;
+                   width: 100% !important;
+                   display: block !important;
+                   visibility: visible !important;
+                   opacity: 1 !important;
+                   min-height: 350px !important;
+                   position: relative !important;
+                   overflow: hidden !important;
+               }
+               
+               /* Add subtle gradient overlay to black cards */
+               .elementor-element-08df2f3::before,
+               .elementor-element-6f5d8a3::before {
+                   content: '' !important;
+                   position: absolute !important;
+                   top: 0 !important;
+                   left: 0 !important;
+                   right: 0 !important;
+                   bottom: 0 !important;
+                   background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%) !important;
+                   border-radius: 30px !important;
+                   pointer-events: none !important;
+               }
+               
+               /* AESTHETIC WHITE CARD - PERSONALIZED SERVICES */
+               .elementor-element-ba77415 {
+                   background: linear-gradient(135deg, #ffffff 0%, #f8f8f8 100%) !important;
+                   border: 3px solid #000 !important;
+                   border-radius: 30px !important;
+                   padding: 4.5rem 3.5rem !important;
+                   margin: 0 !important;
+                   box-shadow: 0 25px 80px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.8) !important;
+                   transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1) !important;
+                   width: 100% !important;
+                   display: block !important;
+                   visibility: visible !important;
+                   opacity: 1 !important;
+                   min-height: 350px !important;
+                   position: relative !important;
+                   overflow: hidden !important;
+               }
+               
+               /* AESTHETIC HOVER EFFECTS */
+               .elementor-element-08df2f3:hover,
+               .elementor-element-ba77415:hover,
+               .elementor-element-6f5d8a3:hover {
+                   transform: translateY(-15px) scale(1.03) !important;
+                   box-shadow: 0 40px 100px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.2) !important;
+               }
+               
+               /* AESTHETIC TYPOGRAPHY - BLACK CARDS */
+               .elementor-element-08df2f3 .elementor-widget-heading h2,
+               .elementor-element-6f5d8a3 .elementor-widget-heading h2 {
+                   color: white !important;
+                   font-size: 3rem !important;
+                   font-weight: 800 !important;
+                   font-family: serif !important;
+                   margin-bottom: 2.5rem !important;
+                   line-height: 1.1 !important;
+                   letter-spacing: 2px !important;
+                   text-shadow: 0 2px 4px rgba(0,0,0,0.3) !important;
+                   position: relative !important;
+                   z-index: 2 !important;
+               }
+               
+               .elementor-element-08df2f3 .elementor-widget-text-editor,
+               .elementor-element-6f5d8a3 .elementor-widget-text-editor,
+               .elementor-element-08df2f3 .elementor-widget-text-editor p,
+               .elementor-element-6f5d8a3 .elementor-widget-text-editor p {
+                   color: rgba(255,255,255,0.95) !important;
+                   font-size: 1.4rem !important;
+                   line-height: 1.9 !important;
+                   font-weight: 400 !important;
+                   margin: 0 !important;
+                   text-shadow: 0 1px 2px rgba(0,0,0,0.3) !important;
+                   position: relative !important;
+                   z-index: 2 !important;
+               }
+               
+               /* AESTHETIC TYPOGRAPHY - WHITE CARD */
+               .elementor-element-ba77415 .elementor-widget-heading h2 {
+                   color: #000 !important;
+                   font-size: 3rem !important;
+                   font-weight: 800 !important;
+                   font-family: serif !important;
+                   margin-bottom: 2.5rem !important;
+                   line-height: 1.1 !important;
+                   letter-spacing: 2px !important;
+                   text-shadow: 0 1px 2px rgba(0,0,0,0.1) !important;
+                   position: relative !important;
+                   z-index: 2 !important;
+               }
+               
+               .elementor-element-ba77415 .elementor-widget-text-editor,
+               .elementor-element-ba77415 .elementor-widget-text-editor p,
+               .elementor-element-ba77415 .elementor-widget-text-editor div,
+               .elementor-element-ba77415 .elementor-widget-text-editor span {
+                   color: #333 !important;
+                   font-size: 1.4rem !important;
+                   line-height: 1.9 !important;
+                   font-weight: 400 !important;
+                   display: block !important;
+                   visibility: visible !important;
+                   opacity: 1 !important;
+                   margin: 0 !important;
+                   text-shadow: 0 1px 2px rgba(0,0,0,0.1) !important;
+                   position: relative !important;
+                   z-index: 2 !important;
+               }
            }
            
            /* Extra small mobile devices */
@@ -386,6 +813,15 @@
                    font-size: 0.9rem !important;
                }
                
+               /* Extra small mobile hero text fixes */
+               .elementor-element-cc25706 .elementor-heading-title {
+                   font-size: 1rem !important;
+               }
+               
+               .elementor-element-0b435e6 .elementor-heading-title {
+                   font-size: 1.5rem !important;
+               }
+               
                .elementor-button {
                    padding: 14px 20px !important;
                    font-size: 14px !important;
@@ -394,8 +830,364 @@
                .elementor-container {
                    padding: 0 0.5rem !important;
                }
-           }
-</style>
+               
+               /* Extra small mobile - About Us and Why Choose Us fixes */
+               .elementor-widget-heading h2,
+               .elementor-widget-heading h3 {
+                   font-size: 1.25rem !important;
+               }
+               
+               /* Extra small mobile - maintain professional look */
+               .elementor-element-ab232db {
+                   padding: 2rem 1rem !important;
+               }
+               
+               .elementor-element-9c4c613 .elementor-divider__text {
+                   font-size: 2rem !important;
+               }
+               
+               .elementor-element-196c0c2 .elementor-widget-text-editor {
+                   font-size: 1rem !important;
+                   padding: 0 1rem !important;
+               }
+               
+               .elementor-element-8e67fe1 {
+                   padding: 2rem 1rem !important;
+               }
+               
+               .elementor-element-8e67fe1 .elementor-widget-heading h2 {
+                   font-size: 2rem !important;
+               }
+               
+               /* Extra small mobile - Our Core Services heading */
+               .elementor-element-3d5eba5 .elementor-heading-title {
+                   font-size: 2rem !important;
+               }
+               
+               .elementor-element-08df2f3,
+               .elementor-element-ba77415,
+               .elementor-element-6f5d8a3 {
+                   padding: 2rem 1.5rem !important;
+                   margin-bottom: 1rem !important;
+               }
+               
+               /* Dark cards text (Expert Team & Premium Products) */
+               .elementor-element-08df2f3 .elementor-widget-heading h2,
+               .elementor-element-6f5d8a3 .elementor-widget-heading h2 {
+                   font-size: 1.5rem !important;
+                   color: white !important;
+               }
+               
+               .elementor-element-08df2f3 .elementor-widget-text-editor,
+               .elementor-element-6f5d8a3 .elementor-widget-text-editor {
+                   font-size: 0.95rem !important;
+                   color: white !important;
+               }
+               
+               /* SEXY SMALL MOBILE - MAINTAIN PREMIUM QUALITY */
+               
+               /* Why Choose Us Section - SEXY SPACING */
+               .elementor-element-8e67fe1 {
+                   padding: 4rem 1.5rem !important;
+               }
+               
+               .elementor-element-8e67fe1 .elementor-widget-heading h2 {
+                   font-size: 3rem !important;
+                   margin-bottom: 4rem !important;
+               }
+               
+               /* SEXY CARDS CONTAINER */
+               .elementor-element-0ffc0cf {
+                   gap: 2.5rem !important;
+               }
+               
+               .elementor-element-0ffc0cf .e-con-inner {
+                   gap: 2.5rem !important;
+               }
+               
+               /* SEXY CARDS - SMALL MOBILE */
+               .elementor-element-08df2f3,
+               .elementor-element-ba77415,
+               .elementor-element-6f5d8a3 {
+                   padding: 3.5rem 2.5rem !important;
+                   min-height: 280px !important;
+                   border-radius: 20px !important;
+               }
+               
+               /* SEXY TYPOGRAPHY - BLACK CARDS */
+               .elementor-element-08df2f3 .elementor-widget-heading h2,
+               .elementor-element-6f5d8a3 .elementor-widget-heading h2 {
+                   font-size: 2.4rem !important;
+                   color: white !important;
+                   margin-bottom: 1.5rem !important;
+               }
+               
+               .elementor-element-08df2f3 .elementor-widget-text-editor,
+               .elementor-element-6f5d8a3 .elementor-widget-text-editor,
+               .elementor-element-08df2f3 .elementor-widget-text-editor p,
+               .elementor-element-6f5d8a3 .elementor-widget-text-editor p {
+                   font-size: 1.2rem !important;
+                   color: white !important;
+                   line-height: 1.7 !important;
+               }
+               
+               /* SEXY TYPOGRAPHY - WHITE CARD */
+               .elementor-element-ba77415 .elementor-widget-heading h2 {
+                   font-size: 2.4rem !important;
+                   color: #000 !important;
+                   margin-bottom: 1.5rem !important;
+               }
+               
+               .elementor-element-ba77415 .elementor-widget-text-editor,
+               .elementor-element-ba77415 .elementor-widget-text-editor p,
+               .elementor-element-ba77415 .elementor-widget-text-editor div,
+               .elementor-element-ba77415 .elementor-widget-text-editor span {
+                   font-size: 1.2rem !important;
+                   color: #000 !important;
+                   line-height: 1.7 !important;
+                   display: block !important;
+                   visibility: visible !important;
+                   opacity: 1 !important;
+               }
+               
+               /* TARGETED APPOINTMENT SECTION FIX - MOBILE ONLY */
+               
+               /* Only target the specific APPOINTMENT elements on mobile */
+               [data-id="e05c935"] {
+                   display: block !important;
+                   visibility: visible !important;
+                   opacity: 1 !important;
+               }
+               
+               [data-id="e05c935"] .e-con-inner {
+                   display: block !important;
+                   visibility: visible !important;
+                   opacity: 1 !important;
+               }
+               
+               [data-id="d5dee49"] {
+                   display: block !important;
+                   visibility: visible !important;
+                   opacity: 1 !important;
+               }
+               
+               [data-id="336d120"] {
+                   display: block !important;
+                   visibility: visible !important;
+                   opacity: 1 !important;
+               }
+               
+               [data-id="336d120"] .elementor-widget-container {
+                   display: block !important;
+                   visibility: visible !important;
+                   opacity: 1 !important;
+               }
+               
+               [data-id="336d120"] .elementor-heading-title {
+                   display: block !important;
+                   visibility: visible !important;
+                   opacity: 1 !important;
+                   color: #333 !important;
+                   font-size: 0.9rem !important;
+                   font-weight: 600 !important;
+                   text-transform: uppercase !important;
+                   letter-spacing: 2px !important;
+                   text-align: center !important;
+                   margin-bottom: 1rem !important;
+               }
+               
+               [data-id="7b00313"] {
+                   display: block !important;
+                   visibility: visible !important;
+                   opacity: 1 !important;
+               }
+               
+               [data-id="7b00313"] .elementor-widget-container {
+                   display: block !important;
+                   visibility: visible !important;
+                   opacity: 1 !important;
+               }
+               
+               [data-id="7b00313"] .elementor-heading-title {
+                   display: block !important;
+                   visibility: visible !important;
+                   opacity: 1 !important;
+                   color: #333 !important;
+                   font-size: 1.8rem !important;
+                   font-weight: 700 !important;
+                   font-family: serif !important;
+                   text-align: center !important;
+                   margin-bottom: 1.5rem !important;
+                   line-height: 1.3 !important;
+               }
+               
+               [data-id="ed5c8d4"] {
+                   display: block !important;
+                   visibility: visible !important;
+                   opacity: 1 !important;
+               }
+               
+               [data-id="ed5c8d4"] .elementor-widget-container {
+                   display: block !important;
+                   visibility: visible !important;
+                   opacity: 1 !important;
+               }
+               
+               [data-id="ed5c8d4"] p {
+                   display: block !important;
+                   visibility: visible !important;
+                   opacity: 1 !important;
+                   color: #666 !important;
+                   font-size: 1rem !important;
+                   text-align: center !important;
+                   margin-bottom: 2rem !important;
+               }
+               
+               [data-id="9eb2e56"] {
+                   display: block !important;
+                   visibility: visible !important;
+                   opacity: 1 !important;
+               }
+               
+               [data-id="9eb2e56"] .elementor-widget-container {
+                   display: block !important;
+                   visibility: visible !important;
+                   opacity: 1 !important;
+               }
+               
+               [data-id="9eb2e56"] .elementor-button-wrapper {
+                   display: flex !important;
+                   justify-content: center !important;
+               }
+               
+               [data-id="9eb2e56"] .elementor-button {
+                   display: flex !important;
+                   align-items: center !important;
+                   gap: 0.5rem !important;
+                   background: transparent !important;
+                   border: none !important;
+                   color: #D4AF37 !important;
+                   font-size: 1.1rem !important;
+                   font-weight: 700 !important;
+                   text-transform: uppercase !important;
+                   letter-spacing: 2px !important;
+               }
+               
+               [data-id="9eb2e56"] .elementor-button-icon {
+                   color: #D4AF37 !important;
+                   border: 2px solid #D4AF37 !important;
+                   border-radius: 50% !important;
+                   width: 30px !important;
+                   height: 30px !important;
+                   display: flex !important;
+                   align-items: center !important;
+                   justify-content: center !important;
+                   font-size: 0.8rem !important;
+               }
+               
+               .elementor-element-7b00313 .elementor-heading-title {
+                   color: #333 !important;
+                   font-size: 1rem !important;
+                   font-weight: 600 !important;
+                   text-transform: uppercase !important;
+                   letter-spacing: 3px !important;
+                   text-align: center !important;
+                   margin-bottom: 1rem !important;
+               }
+               
+               /* Force main heading to be visible */
+               .elementor-element-7b00313 + .elementor-element,
+               .elementor-element-7b00313 + .elementor-element *,
+               .elementor-element-7b00313 + .elementor-element .elementor-widget-container,
+               .elementor-element-7b00313 + .elementor-element .elementor-heading-title {
+                   display: block !important;
+                   visibility: visible !important;
+                   opacity: 1 !important;
+               }
+               
+               .elementor-element-7b00313 + .elementor-element .elementor-heading-title {
+                   color: #333 !important;
+                   font-size: 2.5rem !important;
+                   font-weight: 700 !important;
+                   font-family: serif !important;
+                   text-align: center !important;
+                   margin-bottom: 2rem !important;
+                   line-height: 1.2 !important;
+               }
+               
+               /* Force text editor to be visible */
+               .elementor-element-ed5c8d4,
+               .elementor-element-ed5c8d4 *,
+               .elementor-element-ed5c8d4 .elementor-widget-container,
+               .elementor-element-ed5c8d4 .elementor-widget-text-editor {
+                   display: block !important;
+                   visibility: visible !important;
+                   opacity: 1 !important;
+               }
+               
+               .elementor-element-ed5c8d4 .elementor-widget-text-editor p {
+                   color: #666 !important;
+                   font-size: 1.1rem !important;
+                   text-align: center !important;
+                   margin-bottom: 3rem !important;
+                   line-height: 1.6 !important;
+               }
+               
+               /* Force button to be visible */
+               .elementor-element-9eb2e56,
+               .elementor-element-9eb2e56 *,
+               .elementor-element-9eb2e56 .elementor-widget-container,
+               .elementor-element-9eb2e56 .elementor-button-wrapper,
+               .elementor-element-9eb2e56 .elementor-button {
+                   display: block !important;
+                   visibility: visible !important;
+                   opacity: 1 !important;
+               }
+               
+               /* AESTHETIC BOOK HERE BUTTON - GOLDEN/BRONZE STYLING */
+               .elementor-element-9eb2e56 .elementor-button {
+                   background: transparent !important;
+                   border: none !important;
+                   border-radius: 0 !important;
+                   padding: 0 !important;
+                   font-size: 1.1rem !important;
+                   font-weight: 700 !important;
+                   text-transform: uppercase !important;
+                   letter-spacing: 2px !important;
+                   color: #D4AF37 !important;
+                   transition: all 0.3s ease !important;
+                   box-shadow: none !important;
+                   width: auto !important;
+                   margin: 0 auto !important;
+                   display: flex !important;
+                   align-items: center !important;
+                   gap: 0.5rem !important;
+               }
+               
+               .elementor-element-9eb2e56 .elementor-button:hover {
+                   color: #B8860B !important;
+                   transform: translateY(-2px) !important;
+               }
+               
+               /* Style the button icon */
+               .elementor-element-9eb2e56 .elementor-button-icon {
+                   color: #D4AF37 !important;
+                   border: 2px solid #D4AF37 !important;
+                   border-radius: 50% !important;
+                   width: 30px !important;
+                   height: 30px !important;
+                   display: flex !important;
+                   align-items: center !important;
+                   justify-content: center !important;
+                   font-size: 0.8rem !important;
+               }
+               
+               .elementor-element-9eb2e56 .elementor-button:hover .elementor-button-icon {
+                   color: #B8860B !important;
+                   border-color: #B8860B !important;
+					}
+				}
+			</style>
 <script>
 window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/16.0.1\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/16.0.1\/svg\/","svgExt":".svg","source":{"concatemoji":"https:\/\/solitabeautybar.com\/wp-includes\/js\/wp-emoji-release.min.js?ver=6.8.2"}};
 /*! This file is auto-generated */
@@ -662,7 +1454,7 @@ var woocommerce_params = {"ajax_url":"\/wp-admin\/admin-ajax.php","wc_ajax_url":
 <link rel="https://api.w.org/" href="https://solitabeautybar.com/wp-json/" /><link rel="alternate" title="JSON" type="application/json" href="https://solitabeautybar.com/wp-json/wp/v2/pages/4399" /><link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://solitabeautybar.com/xmlrpc.php?rsd" />
 <meta name="generator" content="WordPress 6.8.2" />
 <meta name="generator" content="WooCommerce 9.3.3" />
-<link rel="canonical" href="https://solitabeautybar.com/" />
+<link rel="canonical" href="#" />
 <link rel='shortlink' href='https://solitabeautybar.com/' />
 <link rel="alternate" title="oEmbed (JSON)" type="application/json+oembed" href="https://solitabeautybar.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fsolitabeautybar.com%2F" />
 <link rel="alternate" title="oEmbed (XML)" type="text/xml+oembed" href="https://solitabeautybar.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fsolitabeautybar.com%2F&#038;format=xml" />
@@ -717,9 +1509,9 @@ class="hfeed site" id="page">
 									<div class="ast-builder-layout-element ast-flex site-header-focus-item" data-section="title_tagline">
 							<div
 				class="site-branding ast-site-identity" itemtype="https://schema.org/Organization" itemscope="itemscope"				>
-					<span class="site-logo-img"><a href="https://solitabeautybar.com/" class="custom-logo-link transparent-custom-logo" rel="home" itemprop="url" aria-label="Solita Beauty Bar"><img width="115" height="115" src="https://solitabeautybar.com/wp-content/uploads/2024/10/nembo-115x115.png" class="custom-logo" alt="Solita Logo" decoding="async" srcset="https://solitabeautybar.com/wp-content/uploads/2024/10/nembo-115x115.png 115w, https://solitabeautybar.com/wp-content/uploads/2024/10/nembo-300x300.png 300w, https://solitabeautybar.com/wp-content/uploads/2024/10/nembo-150x150.png 150w, https://solitabeautybar.com/wp-content/uploads/2024/10/nembo-768x768.png 768w, https://solitabeautybar.com/wp-content/uploads/2024/10/nembo-600x600.png 600w, https://solitabeautybar.com/wp-content/uploads/2024/10/nembo-100x100.png 100w, https://solitabeautybar.com/wp-content/uploads/2024/10/nembo.png 1013w" sizes="(max-width: 115px) 100vw, 115px" /></a></span>				</div>
+					<span class="site-logo-img"><a href="#" class="custom-logo-link transparent-custom-logo" rel="home" itemprop="url" aria-label="Solita Beauty Bar"><img width="115" height="115" src="https://solitabeautybar.com/wp-content/uploads/2024/10/nembo-115x115.png" class="custom-logo" alt="Solita Logo" decoding="async" srcset="https://solitabeautybar.com/wp-content/uploads/2024/10/nembo-115x115.png 115w, https://solitabeautybar.com/wp-content/uploads/2024/10/nembo-300x300.png 300w, https://solitabeautybar.com/wp-content/uploads/2024/10/nembo-150x150.png 150w, https://solitabeautybar.com/wp-content/uploads/2024/10/nembo-768x768.png 768w, https://solitabeautybar.com/wp-content/uploads/2024/10/nembo-600x600.png 600w, https://solitabeautybar.com/wp-content/uploads/2024/10/nembo-100x100.png 100w, https://solitabeautybar.com/wp-content/uploads/2024/10/nembo.png 1013w" sizes="(max-width: 115px) 100vw, 115px" /></a></span>				</div>
 			<!-- .site-branding -->
-					</div>
+				</div>
 				<div class="ast-builder-menu-1 ast-builder-menu ast-flex ast-builder-menu-1-focus-item ast-builder-layout-element site-header-focus-item" data-section="section-hb-menu-1">
 			<div class="ast-main-header-bar-alignment"><div class="main-header-bar-navigation"><nav class="site-navigation ast-flex-grow-1 navigation-accessibility site-header-focus-item" id="primary-site-navigation-desktop" aria-label="Site Navigation: Primary" itemtype="https://schema.org/SiteNavigationElement" itemscope="itemscope"><div class="main-navigation ast-inline-flex"><ul id="ast-hf-menu-1" class="main-header-menu ast-menu-shadow ast-nav-menu ast-flex  submenu-with-border ast-menu-hover-style-underline  stack-on-mobile">
 				{% if user.is_authenticated %}
@@ -751,7 +1543,7 @@ class="hfeed site" id="page">
 										<div class="ast-builder-layout-element ast-flex site-header-focus-item" data-section="title_tagline">
 							<div
 				class="site-branding ast-site-identity" itemtype="https://schema.org/Organization" itemscope="itemscope"				>
-					<span class="site-logo-img"><a href="https://solitabeautybar.com/" class="custom-logo-link transparent-custom-logo" rel="home" itemprop="url" aria-label="Solita Beauty Bar"><img width="115" height="115" src="https://solitabeautybar.com/wp-content/uploads/2024/10/nembo-115x115.png" class="custom-logo" alt="Solita Logo" decoding="async" srcset="https://solitabeautybar.com/wp-content/uploads/2024/10/nembo-115x115.png 115w, https://solitabeautybar.com/wp-content/uploads/2024/10/nembo-300x300.png 300w, https://solitabeautybar.com/wp-content/uploads/2024/10/nembo-150x150.png 150w, https://solitabeautybar.com/wp-content/uploads/2024/10/nembo-768x768.png 768w, https://solitabeautybar.com/wp-content/uploads/2024/10/nembo-600x600.png 600w, https://solitabeautybar.com/wp-content/uploads/2024/10/nembo-100x100.png 100w, https://solitabeautybar.com/wp-content/uploads/2024/10/nembo.png 1013w" sizes="(max-width: 115px) 100vw, 115px" /></a></span>				</div>
+					<span class="site-logo-img"><a href="#" class="custom-logo-link transparent-custom-logo" rel="home" itemprop="url" aria-label="Solita Beauty Bar"><img width="115" height="115" src="https://solitabeautybar.com/wp-content/uploads/2024/10/nembo-115x115.png" class="custom-logo" alt="Solita Logo" decoding="async" srcset="https://solitabeautybar.com/wp-content/uploads/2024/10/nembo-115x115.png 115w, https://solitabeautybar.com/wp-content/uploads/2024/10/nembo-300x300.png 300w, https://solitabeautybar.com/wp-content/uploads/2024/10/nembo-150x150.png 150w, https://solitabeautybar.com/wp-content/uploads/2024/10/nembo-768x768.png 768w, https://solitabeautybar.com/wp-content/uploads/2024/10/nembo-600x600.png 600w, https://solitabeautybar.com/wp-content/uploads/2024/10/nembo-100x100.png 100w, https://solitabeautybar.com/wp-content/uploads/2024/10/nembo.png 1013w" sizes="(max-width: 115px) 100vw, 115px" /></a></span>				</div>
 			<!-- .site-branding -->
 					</div>
 									</div>
@@ -1270,7 +2062,7 @@ class="site-footer" id="colophon" itemtype="https://schema.org/WPFooter" itemsco
 					document.addEventListener( event, lazyloadRunObserver );
 				} );
 			</script>
-				<script>
+    <script>
 		(function () {
 			var c = document.body.className;
 			c = c.replace(/woocommerce-no-js/, 'woocommerce-js');
@@ -1516,7 +2308,7 @@ var elementorFrontendConfig = {"environmentMode":{"edit":false,"wpPreview":false
                                border-radius: 8px;
                                padding: 1rem;
                                min-width: 200px;
-                               display: none;
+                               display: none !important;
                                margin-top: 8px;
                                box-shadow: 0 8px 24px rgba(0,0,0,0.4);
                                z-index: 9999;
@@ -1569,8 +2361,14 @@ var elementorFrontendConfig = {"environmentMode":{"edit":false,"wpPreview":false
                                e.preventDefault();
                                e.stopPropagation();
                                
-                               const isVisible = dropdown.style.display === 'block';
-                               dropdown.style.display = isVisible ? 'none' : 'block';
+                               const isVisible = dropdown.classList.contains('show');
+                               if (isVisible) {
+                                   dropdown.classList.remove('show');
+                                   dropdown.style.display = 'none';
+                               } else {
+                                   dropdown.classList.add('show');
+                                   dropdown.style.display = 'block';
+                               }
                                
                                console.log('Hamburger menu toggled:', !isVisible);
                            });
@@ -1578,6 +2376,7 @@ var elementorFrontendConfig = {"environmentMode":{"edit":false,"wpPreview":false
                            // Close menu when clicking outside
                            document.addEventListener('click', function(e) {
                                if (!hamburgerBtn.contains(e.target) && !dropdown.contains(e.target)) {
+                                   dropdown.classList.remove('show');
                                    dropdown.style.display = 'none';
                                }
                            });
@@ -1600,10 +2399,121 @@ var elementorFrontendConfig = {"environmentMode":{"edit":false,"wpPreview":false
                    }
                }
                
+               // Force visibility of problematic elements
+               function forceElementVisibility() {
+                   console.log('[Force Visibility] Starting element visibility fix...');
+                   
+                   // Force Our Core Services heading
+                   const coreServicesHeading = document.querySelector('.elementor-element-3d5eba5');
+                   if (coreServicesHeading) {
+                       coreServicesHeading.style.display = 'block';
+                       coreServicesHeading.style.visibility = 'visible';
+                       coreServicesHeading.style.opacity = '1';
+                       console.log('[Force Visibility] Fixed Our Core Services heading');
+                   }
+                   
+                   // Force Why Choose Us card text - especially Personalized Services
+                   const cardTextSelectors = [
+                       '.elementor-element-08df2f3 .elementor-widget-text-editor',
+                       '.elementor-element-ba77415 .elementor-widget-text-editor',
+                       '.elementor-element-6f5d8a3 .elementor-widget-text-editor'
+                   ];
+                   
+                   cardTextSelectors.forEach(selector => {
+                       const elements = document.querySelectorAll(selector);
+                       elements.forEach(element => {
+                           element.style.display = 'block';
+                           element.style.visibility = 'visible';
+                           element.style.opacity = '1';
+                           
+                           // Also force all child elements
+                           const childElements = element.querySelectorAll('*');
+                           childElements.forEach(child => {
+                               child.style.display = 'block';
+                               child.style.visibility = 'visible';
+                               child.style.opacity = '1';
+                           });
+                       });
+                   });
+                   
+                   // Specifically target Personalized Services card
+                   const personalizedCard = document.querySelector('.elementor-element-ba77415');
+                   if (personalizedCard) {
+                       personalizedCard.style.display = 'block';
+                       personalizedCard.style.visibility = 'visible';
+                       personalizedCard.style.opacity = '1';
+                       
+                       // Force all text elements in this card
+                       const textElements = personalizedCard.querySelectorAll('p, div, span, text');
+                       textElements.forEach(textEl => {
+                           textEl.style.display = 'block';
+                           textEl.style.visibility = 'visible';
+                           textEl.style.opacity = '1';
+                           textEl.style.color = '#333';
+                       });
+                       
+                       console.log('[Force Visibility] Specifically fixed Personalized Services card');
+                   }
+                   
+                   // TARGETED APPOINTMENT section fix
+                   const appointmentSelectors = [
+                       '[data-id="e05c935"]',
+                       '[data-id="d5dee49"]',
+                       '[data-id="336d120"]',
+                       '[data-id="7b00313"]',
+                       '[data-id="ed5c8d4"]',
+                       '[data-id="9eb2e56"]'
+                   ];
+                   
+                   appointmentSelectors.forEach(selector => {
+                       const elements = document.querySelectorAll(selector);
+                       elements.forEach(element => {
+                           element.style.display = 'block';
+                           element.style.visibility = 'visible';
+                           element.style.opacity = '1';
+                       });
+                   });
+                   
+                   console.log('[Force Visibility] TARGETED FIX applied to APPOINTMENT section');
+                   
+                   console.log('[Force Visibility] Fixed Why Choose Us card text');
+               }
+               
                // Fix hamburger menu
                setTimeout(fixGoldenHamburgerMenu, 500);
                setTimeout(fixGoldenHamburgerMenu, 2000);
-           });
+               
+               // Force element visibility
+               setTimeout(forceElementVisibility, 1000);
+               setTimeout(forceElementVisibility, 3000);
+               
+               // TARGETED APPOINTMENT FIX - Run multiple times
+               function targetedAppointmentFix() {
+                   const appointmentSelectors = [
+                       '[data-id="e05c935"]',
+                       '[data-id="d5dee49"]',
+                       '[data-id="336d120"]',
+                       '[data-id="7b00313"]',
+                       '[data-id="ed5c8d4"]',
+                       '[data-id="9eb2e56"]'
+                   ];
+                   
+                   appointmentSelectors.forEach(selector => {
+                       const elements = document.querySelectorAll(selector);
+                       elements.forEach(element => {
+                           element.style.display = 'block';
+                           element.style.visibility = 'visible';
+                           element.style.opacity = '1';
+                       });
+                   });
+                   
+                   console.log('[Targeted Fix] APPOINTMENT section made visible');
+               }
+               
+               // Run targeted fix multiple times
+               setTimeout(targetedAppointmentFix, 1000);
+               setTimeout(targetedAppointmentFix, 3000);
+        });
 			</script>
 				</body>
 </html>
