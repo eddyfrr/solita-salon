@@ -21,10 +21,10 @@ from django.conf.urls.static import static
 from django.views.generic import RedirectView
 
 urlpatterns = [
-    path('favicon.ico', RedirectView.as_view(url='/static/favicon.ico',permanent=True)),
+    path('favicon.ico', RedirectView.as_view(url='/static/favicon.ico', permanent=True)),
     path('admin/', admin.site.urls),
-    path('', include('booking.urls')),
-] 
+    path('api/', include('api.urls')),
+]
 
 # Serve media files in development
 if settings.DEBUG:

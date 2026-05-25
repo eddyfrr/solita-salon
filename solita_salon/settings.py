@@ -32,20 +32,33 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-vf+k1gy7=%$t#ve2sik#k_96596-l5&*vhzi@u_1-3ahy9%j(w'
+SECRET_KEY = os.environ.get(
+    'SECRET_KEY',
+    'django-insecure-vf+k1gy7=%$t#ve2sik#k_96596-l5&*vhzi@u_1-3ahy9%j(w',
+)
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = os.environ.get('DEBUG', 'True').lower() in ('true', '1', 'yes')
 
+# Comma-separated list of allowed hosts.
+# In production set ALLOWED_HOSTS env var, e.g.
+#   solita-backend.azurewebsites.net,solitabeautybar.com
 ALLOWED_HOSTS = [
-    'solitabeautybar.up.railway.app',
-    'localhost',
-    '127.0.0.1'
-    ]
+    h.strip() for h in os.environ.get(
+        'ALLOWED_HOSTS',
+        'localhost,127.0.0.1,solitabeautybar.up.railway.app',
+    ).split(',') if h.strip()
+]
 
-
-    
-CSRF_TRUSTED_ORIGINS = ['https://solitabeautybar.up.railway.app']
+# Trusted origins for CSRF (must include scheme).
+# In production set CSRF_TRUSTED_ORIGINS env var, e.g.
+#   https://solita-backend.azurewebsites.net,https://solitabeautybar.com
+CSRF_TRUSTED_ORIGINS = [
+    o.strip() for o in os.environ.get(
+        'CSRF_TRUSTED_ORIGINS',
+        'https://solitabeautybar.up.railway.app',
+    ).split(',') if o.strip()
+]
 # Application definition
 
 INSTALLED_APPS = [
@@ -56,22 +69,60 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.humanize',
-    'booking',
+    # Third party
+    'rest_framework',
+    'rest_framework_simplejwt',
+    'corsheaders',
     'whitenoise.runserver_nostatic',
     'cloudinary_storage',
     'cloudinary',
+    # Local apps
+    'api',
 ]
 
-CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': os.environ['CLOUDINARY_CLOUD_NAME'],
-    'API_KEY': os.environ['CLOUDINARY_API_KEY'],
-    'API_SECRET': os.environ['CLOUDINARY_API_SECRET'],
+# DRF
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ],
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 50,
 }
 
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+# JWT
+from datetime import timedelta  # noqa: E402
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(hours=12),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
+}
+
+# CORS — open in DEBUG, locked to CORS_ALLOWED_ORIGINS in production.
+# CORS_ALLOWED_ORIGINS env example:
+#   https://solitabeautybar.vercel.app,https://solita-frontend.azurestaticapps.net
+CORS_ALLOW_CREDENTIALS = True
+if DEBUG:
+    CORS_ALLOW_ALL_ORIGINS = True
+else:
+    CORS_ALLOW_ALL_ORIGINS = False
+    CORS_ALLOWED_ORIGINS = [
+        o.strip() for o in os.environ.get('CORS_ALLOWED_ORIGINS', '').split(',')
+        if o.strip()
+    ]
+
+if os.environ.get('CLOUDINARY_CLOUD_NAME'):
+    CLOUDINARY_STORAGE = {
+        'CLOUD_NAME': os.environ['CLOUDINARY_CLOUD_NAME'],
+        'API_KEY': os.environ['CLOUDINARY_API_KEY'],
+        'API_SECRET': os.environ['CLOUDINARY_API_SECRET'],
+    }
+    DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+else:
+    MEDIA_URL = '/media/'
+    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -106,10 +157,13 @@ WSGI_APPLICATION = 'solita_salon.wsgi.application'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {
-      'default': dj_database_url.config(
-          default=config('DATABASE_URL'),  # Rely on the env variable, no fallback
-          conn_max_age=600
-      )
+    'default': dj_database_url.config(
+        default=os.environ.get(
+            'DATABASE_URL',
+            f'sqlite:///{BASE_DIR / "db.sqlite3"}'
+        ),
+        conn_max_age=600,
+    )
 }
 
 # Password validation
@@ -179,10 +233,16 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'edmundrwegasira@gmail.com'
-EMAIL_HOST_PASSWORD = 'ldnp fude ngcu jgrk'  # Gmail app password
-DEFAULT_FROM_EMAIL = 'Solita Salon <edmundrwegasira@gmail.com>'
-SERVER_EMAIL = DEFAULT_FROM_EMAIL
+EMAIL_HOST_PASSWORD = 'ctku zdel nrfz kgiv'
+DEFAULT_FROM_EMAIL = 'Solita Beauty Bar <edmundrwegasira@gmail.com>'
 
 
 # WhatsApp Business Configuration
-WHATSAPP_BUSINESS_NUMBER = "255766363233"  # Update with actual business WhatsApp number
+WHATSAPP_BUSINESS_NUMBER = "255766363233"
+
+# ClickPesa Configuration — credentials in .env
+CLICKPESA_CLIENT_ID = os.environ.get('CLICKPESA_CLIENT_ID', '')
+CLICKPESA_API_KEY = os.environ.get('CLICKPESA_API_KEY', '')
+CLICKPESA_API_URL = os.environ.get('CLICKPESA_API_URL', 'https://api.clickpesa.com')
+CLICKPESA_SUCCESS_URL = os.environ.get('CLICKPESA_SUCCESS_URL', 'http://localhost:3000/booking/success')
+CLICKPESA_FAILURE_URL = os.environ.get('CLICKPESA_FAILURE_URL', 'http://localhost:3000/booking/failed')

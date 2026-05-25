@@ -4,17 +4,29 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from datetime import datetime
 
+# Solita appointment slots — 4 fixed times per day.
+APPOINTMENT_TIME_CHOICES = [
+    ('06:30', '6:30 AM'),
+    ('08:30', '8:30 AM'),
+    ('10:30', '10:30 AM'),
+    ('14:00', '2:00 PM'),
+]
+
+
 class AppointmentForm(forms.Form):
     date = forms.DateField(widget=forms.DateInput(attrs={'type': 'text', 'id': 'id_date'}))
-    time = forms.TimeField(widget=forms.TextInput(attrs={'type': 'text', 'id': 'id_time'}), input_formats=['%I:%M %p', '%H:%M'])
+    time = forms.ChoiceField(choices=APPOINTMENT_TIME_CHOICES, widget=forms.Select(attrs={'id': 'id_time'}))
     service = forms.ModelChoiceField(queryset=Service.objects.all(), widget=forms.HiddenInput(), required=True)
     service_type = forms.ModelChoiceField(queryset=ServiceType.objects.none(), label="Type", required=True)
 
     def clean_time(self):
-        time_obj = self.cleaned_data.get('time')
-        if time_obj:
-            return time_obj
-        raise forms.ValidationError('Invalid time format. Please use HH:MM AM/PM (e.g., 2:30 PM) or HH:MM (e.g., 14:30).')
+        raw = self.cleaned_data.get('time')
+        try:
+            return datetime.strptime(raw, '%H:%M').time()
+        except (TypeError, ValueError):
+            raise forms.ValidationError(
+                'Please choose one of the available appointment slots: 6:30 AM, 8:30 AM, 10:30 AM, or 2:00 PM.'
+            )
 
     def __init__(self, *args, **kwargs):
         service_id = kwargs.pop('service_id', None)

@@ -1,1 +1,2 @@
-web: python manage.py migrate && python manage.py create_admin && python manage.py collectstatic --noinput && gunicorn solita_salon.wsgi
+release: python manage.py migrate --noinput && python manage.py collectstatic --noinput
+web: gunicorn solita_salon.wsgi --bind 0.0.0.0:$PORT --workers 2 --timeout 120
